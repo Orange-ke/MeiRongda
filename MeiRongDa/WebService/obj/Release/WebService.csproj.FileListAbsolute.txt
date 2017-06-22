@@ -1,0 +1,8 @@
+E:\项目\MeiRongDa\MeiRongDa\WebService\bin\WebService.dll.config
+E:\项目\MeiRongDa\MeiRongDa\WebService\bin\WebService.dll
+E:\项目\MeiRongDa\MeiRongDa\WebService\bin\WebService.pdb
+E:\项目\MeiRongDa\MeiRongDa\WebService\bin\MySql.Data.dll
+E:\项目\MeiRongDa\MeiRongDa\WebService\bin\Newtonsoft.Json.dll
+E:\项目\MeiRongDa\MeiRongDa\WebService\obj\Release\WebService.csprojResolveAssemblyReference.cache
+E:\项目\MeiRongDa\MeiRongDa\WebService\obj\Release\WebService.dll
+E:\项目\MeiRongDa\MeiRongDa\WebService\obj\Release\WebService.pdb

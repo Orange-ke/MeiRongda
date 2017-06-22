@@ -1,0 +1,4033 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>
+        美融达
+    </title>
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="" rel="stylesheet" id="theme_link" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="css/dropload/dropload.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <style type="text/css">
+        body {
+            overflow: hidden;
+        }
+
+        .fixed {
+            table-layout: fixed;
+        }
+
+        .crossout {
+            text-decoration: line-through;
+        }
+
+        .nowrap {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .index-top {
+            z-index: 9999;
+        }
+
+        .container-fluid {
+            padding: 0;
+        }
+
+        .selected > span {
+            border: 2px solid #ccc;
+        }
+        /*.main-left .panel { border-radius: 0px; }*/ /*.main-left
+            .panel-heading { padding: 0px; border-radius: 0px; border-bottom: 0px;
+            }*/
+        .main-left .panel .panel-heading .navbar {
+            border-radius: 0px;
+            border: none;
+            margin-bottom: 0px;
+        }
+
+        .main-left .panel .panel-heading .navbar-brand {
+            padding: 0 15px;
+            width: 120px;
+        }
+
+        #left-body {
+            padding: 0px;
+        }
+
+        #left-table-header {
+            margin-bottom: 0px;
+            border: none;
+        }
+
+            #left-table-header th {
+                border-bottom-width: 1px;
+            }
+
+                #left-table-header th:last-child {
+                    border-right: none;
+                }
+
+                #left-table-header th:first-child {
+                    border-left: none;
+                }
+
+        #left-table-body {
+            border-top: none;
+        }
+
+            #left-table-body td {
+                text-align: center;
+            }
+
+        #left-table-div {
+            overflow-y: auto;
+        }
+
+        .user-header-container {
+            text-align: center;
+            padding-right: 0;
+            float: left;
+            width: 49%;
+        }
+
+        .user-header {
+            padding: 12px 0;
+            font-size: 26px;
+        }
+
+        .user-info-container {
+            padding-left: 0px;
+            font-size: 14px;
+            padding-top: 5px;
+            float: right;
+            width: 49%;
+        }
+
+        .header-operation {
+            padding: 8px 0;
+        }
+
+        .user-info-form {
+            padding: 0px 15px;
+        }
+
+        .main-left {
+            padding-right: 0;
+        }
+
+        .main-right {
+            padding-left: 0;
+        }
+
+        .cp_form .form-group:nth-child(1), .cp_form .form-group:nth-child(2), .pp_form .form-group:nth-child(1), .pp_form .form-group:nth-child(2) {
+            padding: 0 15px;
+        }
+
+        .cp_item, .pp_item {
+            padding: 2px;
+        }
+
+            .cp_item > div,
+            .pp_item > div {
+                padding: 0px;
+                border-radius: 4px 4px 0 0;
+                margin-bottom: 2px;
+            }
+
+            .cp_item img, .pp_item img {
+                width: 120px;
+                height: 120px;
+                padding: 4px;
+            }
+
+            .cp_item table, .pp_item table {
+                width: 100%;
+            }
+
+                .cp_item table tr td, .pp_item table tr td {
+                    border: none;
+                }
+
+            .cp_item .dropdown-menu .divider:last-child {
+                display: none;
+            }
+
+        .cp_item_number, .pp_item_number {
+            background-color: #5bc0de;
+            text-indent: 10px;
+            padding: 5px 0px;
+        }
+
+        .cp_item_number {
+        }
+
+        .cp_item_number:first-child {
+        }
+
+        .cp_item_number .countdown {
+            text-align: center;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 5px;
+            color: white;
+        }
+
+        .cp_item_number .glyphicon-time {
+            font-size: 16px;
+            line-height: 16px;
+        }
+
+        .cp_item_type, .pp_item_type {
+            text-indent: 0;
+            font-size: 14px;
+            border-radius: 0px 4px 0 0;
+            text-align: center;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            padding: 12px 10px;
+        }
+
+        .cp_item_name, .pp_item_name {
+            text-indent: 10px;
+            padding-top: 15px;
+            font-size: 12px;
+        }
+
+        .cp_item_price, .pp_item_price {
+            text-indent: 10px;
+            padding: 15px 0;
+            font-size: 16px;
+            color: #e22e2e;
+        }
+
+        .cp_item_stock, .pp_item_stock {
+            text-indent: 10px;
+            padding: 15px 10px 15px 0;
+            text-align: right;
+        }
+
+        .cp_item > .panel .cp_item_order, .pp_item > .panel .pp_item_order, .cp_item > .panel .cp_item_cart, .pp_item > .panel .pp_item_cart {
+            padding: 0;
+        }
+
+        .cp_item_cart button, .pp_item_cart button {
+            width: 100%;
+            border-radius: 0px;
+        }
+
+        .cp_item_order button, .pp_item_order button {
+            width: 100%;
+            border-radius: 0px;
+        }
+
+        .cp_item_clone,
+        .pp_item_clone, .cart_item_clone, .guadan_item_clone {
+            display: none;
+        }
+
+        #btn_guadan .divider:last-child {
+            display: none;
+        }
+
+        .guadan_item .table {
+            margin: 0;
+        }
+
+        .guadan_item .table > tbody > tr > td {
+            border-top: none;
+        }
+
+        .guadan_item .table > tbody > tr > td:first-child {
+            text-align: center;
+        }
+
+        .guadan_item .table > tbody > tr > td:nth-child(2) {
+            text-align: left;
+        }
+
+        .guadan_item .table > tbody > tr > td:last-child {
+            text-align: right;
+        }
+
+        .guadan_item .glyphicon-shopping-cart {
+            font-size: 20px;
+            line-height: 20px;
+        }
+
+        .guadan_item .badge {
+            font-size: 8px;
+            margin-top: -20px;
+            margin-left: -10px;
+        }
+
+        #pp_item_main, #cp_item_main {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .pp_item_container, .cp_item_container {
+            margin: 0px;
+        }
+
+        .main-left .panel-footer {
+            padding: 0px;
+            border-top: 0px;
+        }
+
+        #btn_guadan {
+            height: 100%;
+            border-radius: 0;
+            width: 50%;
+            float: left;
+        }
+
+            #btn_guadan button {
+                border-radius: 0;
+                width: 100%;
+                border-right-width: 0;
+            }
+
+        #btn_settlement {
+            height: 100%;
+            border-radius: 0;
+            width: 50%;
+        }
+
+        .cart_item table {
+            width: 100%;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+            .cart_item table td {
+                padding: 6px 5px;
+            }
+
+        .remove_cart {
+            padding: 0;
+        }
+
+        .cart_item_number .btn, .settlement_item_number .btn {
+            padding: 0;
+            font-size: 12px;
+        }
+
+            .cart_item_number .btn:first-child {
+                float: left;
+            }
+
+            .cart_item_number .btn:last-child {
+                float: right;
+            }
+
+        .settlement_item_number {
+            text-align: center;
+        }
+
+            .settlement_item_number .btn:first-child {
+                padding-right: 10%;
+            }
+
+            .settlement_item_number .btn:last-child {
+                padding-left: 10%;
+            }
+
+            .cart_item_number span:nth-child(2), .settlement_item_number span:nth-child(2) {
+                color: red;
+                font-size: 16px;
+                line-height: 15px;
+            }
+
+        #reserveModal .modal-body {
+            padding: 0px;
+            overflow: auto;
+        }
+
+        #reserve_top_table {
+            margin: 0px;
+        }
+
+        #reserve-modal-body thead tr td:first-child {
+            padding: 0px;
+        }
+
+        .out {
+            width: 60px;
+        }
+
+            .out:before {
+                content: "";
+                position: absolute;
+                width: 2px;
+                height: 71px; /*这里需要自己调整，根据td的宽度和高度*/
+                top: 0;
+                left: 0;
+                background-color: #e5e5e5;
+                display: block;
+                transform: rotate(-59deg); /*这里需要自己调整，根据线的位置*/
+                transform-origin: top;
+            }
+
+            .out b {
+                font-style: normal;
+                display: block;
+                position: absolute;
+                top: 18px;
+                left: 5px;
+                font-weight: 400;
+            }
+
+            .out em {
+                font-style: normal;
+                display: block;
+                position: absolute;
+                top: 0px;
+                left: 30px;
+            }
+
+        .isSelect {
+            background-color: #ddd;
+        }
+
+        .reserve_td {
+            cursor: pointer;
+        }
+
+            .reserve_td:hover {
+                background-color: #ddd;
+            }
+
+        .reserve_btn_div {
+            position: absolute;
+            text-align: center;
+            display: none;
+        }
+
+        .accordion_reserve_item .panel-heading {
+            padding: 2px 0px 2px 5px;
+        }
+
+        .accordion_reserve_item .panel-title {
+            line-height: 2;
+        }
+
+        .accordion_reserve_item .btn-link {
+            float: right;
+        }
+
+        #reservetbModal .well-lg {
+            padding: 5px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: 200px;
+        }
+
+        .reservetb_list_thead {
+            margin: 0;
+            border-bottom: none;
+        }
+
+            .reservetb_list_thead > thead > tr > th {
+                border-bottom: none;
+            }
+
+            .reservetb_list_thead th:first-child,
+            .reservetb_list_thead th:last-child, .reservetb_list_tbody > tbody > tr > td:first-child, .reservetb_list_tbody > tbody > tr > td:last-child {
+                text-align: center;
+            }
+
+        .reservetb_list_div {
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .dropdownMenuCustomer-div {
+            overflow-x: hidden;
+        }
+
+        .dropdownMenuCustomer-list {
+            list-style: none;
+            padding-left: 10px;
+        }
+
+        .customer_item a .row div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        /*.customer_item
+            table{ margin:0; } .customer_item table tbody tr td { border: none; text-align:left;
+            width:25%; } .customer_item table tbody tr td:first-child { width:30px;
+            }*/
+
+        .settlement_list_thead {
+            margin-bottom: 0;
+        }
+
+            .settlement_list_thead thead tr th {
+                border-bottom: none;
+            }
+
+        .settlement_list_tbody tbody tr td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .remove_settlement_item {
+            padding: 0;
+        }
+
+        .settlement_totalamount {
+            float: left;
+            font-weight: 700;
+            line-height: 30px;
+            font-size: 18px;
+        }
+
+        .servicePersonalListThead > thead > tr > th {
+            border-bottom: none;
+        }
+
+        .servicePersonalListTbody {
+            border-top: none;
+        }
+
+        .service_personal_div > a > ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-bordered-none tbody tr td, .table-bordered-none thead tr td {
+            border-top: none;
+        }
+
+        .table-bordered-bottom {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+    <script src="js/jquery-1.9.1.min.js">
+    </script>
+    <script src="js/jquery.browser.js">
+    </script>
+    
+    <script src="js/jquery.cookie.js">
+    </script>
+    <script src="js/jquery.session.js">
+    </script>
+    <script src="js/jquery.jqprint.js">
+    </script>
+    <script src="bootstrap/js/bootstrap.min.js">
+    </script>
+    <script src="js/chart/Chart.bundle.js">
+    </script>
+    <script src="bootstrap/js/bootstrap-datetimepicker.min.js">
+    </script>
+    <script src="bootstrap/js/bootstrap-datetimepicker.zh-CN.js">
+    </script>
+    <script src="js/dropload/dropload.js">
+    </script>
+    <script src="js/main.js"></script>
+
+        <script type="text/javascript">
+            $(function () {
+
+                if (User.verification()) {
+                    initlayout();
+                    Allocation.init();
+                    Theme.init();
+                    Customer.init();
+                    //Settlement.init();
+                    //ServicePersonal.init();
+                    //Room.init();
+                 
+                    init_pp();
+                    init_cp();
+                } else Page.goLogin();
+            });
+            //项目产品搜索点击事件
+            function pp_query(e) {
+                var val = $(e).parent().prev().val();
+                refresh_pp(1, val);
+            }
+            function cp_query(e) {
+                var val = $(e).parent().prev().val();
+                refresh_cp(1, val);
+            }
+
+            function initlayout() {
+                var total = document.documentElement.clientHeight;
+                var foot_height = $(".panel-footer", ".main-left").outerHeight(true);
+
+                var heigth = total - foot_height - document.getElementById("left-body").offsetTop;
+                $("#left-body").outerHeight(heigth);
+
+                heigth = total - document.getElementById("pp_item_main").offsetTop;
+                $("#pp_item_main").outerHeight(heigth);
+                heigth = total - document.getElementById("cp_item_main").offsetTop;
+                $("#cp_item_main").outerHeight(heigth);
+                heigth = total - foot_height - document.getElementById("left-table-div").offsetTop;
+                $("#left-table-div").outerHeight(heigth);
+            }
+
+            //刷新化产品\项目列表
+            function refresh_pp(pageNumber, parameter) {
+                $(".pp_item_container").empty();
+                $("#pp_item_main").droploadRefresh(pageNumber, parameter);
+            }
+            function refresh_cp(pageNumber, parameter) {
+                $(".cp_item_container").empty();
+                $("#cp_item_main").droploadRefresh(pageNumber, parameter);
+            }
+            //初始化产品\项目列表
+            function init_pp() {
+                $(".pp_item_container").empty();
+                $("#pp_item_main").droploadInit(PROCEDURE.GETCHANPINANDXIANGMU, '',
+                function (rs) {
+                    if (rs.result) {
+                        add_pp_item(rs.data[0]);
+                    }
+                })
+            }
+            //初始化疗程\促销列表
+            function init_cp() {
+                $(".cp_item_container").empty();
+                $("#cp_item_main").droploadInit(PROCEDURE.GETLIAOCHENGANDCHUXIAO, '',
+                function (rs) {
+                    if (rs.result) {
+                        add_cp_item(RelationData(rs.data[0], rs.data[1], "liaochengId", "details"));
+                    }
+                })
+            }
+            //添加产品\项目Item
+            function add_pp_item(data) {
+
+                for (var i = 0; i < data.length; i++) {
+                    var item = get_pp_item(data[i]);
+                    $(".pp_item_container").append(item);
+                }
+
+            }
+            function add_cp_item(data) {
+
+                for (var i = 0; i < data.length; i++) {
+                    var item = get_cp_item(data[i]);
+                    $(".cp_item_container").append(item);
+                }
+
+            }
+            function get_pp_item(data) {
+                var item = $(".pp_item_clone").clone(true);
+                item.removeClass("pp_item_clone");
+                item.fillData(data);
+                return item;
+            }
+            function get_cp_item(data) {
+                var item = $(".cp_item_clone").clone(true);
+                item.removeClass("cp_item_clone");
+                item.fillData(data);
+                return item;
+            }
+            function add_cart_item(e) {
+                var info = $(e).parents(".pp_item").attr("data-info");
+                if (!info) info = $(e).parents(".cp_item").attr("data-info");
+                add_cart(JSON.parse(info))
+            }
+            function empty_cart() {
+                $(".cart_item", "#left-table-div").remove();
+            }
+            function add_cart(data) {
+                var ci = $(".cart_item[data-id='" + data.id + "']", "#left-table-div");
+                if (ci.length > 0) {
+                    $(".cart_item_number", ci).find("a").eq(1).click();
+                } else {
+                    data["number"] = data["number"] == null ? 1 : data["number"];
+                    data["totalamount"] = data["totalamount"] == null ? (parseFloat(data.price) * 1).toFixed(2) : parseFloat(data["totalamount"]).toFixed(2);
+                    var item = get_cart_item(data);
+                    $("#left-table-div").append(item);
+                    initlayout_table();
+                }
+            }
+            function init_cart(data) {
+                empty_cart();
+                $(data).each(function (i, e) {
+                    add_cart(e)
+                })
+            }
+            function initlayout_table() {
+                $("th", "#left-table-header").each(function (i, e) {
+                    var width = $(e).width();
+                    var all_width = $(e).parent().width();
+                    var dn = $(e).attr("data-column");
+                    $("td[data-column='" + dn + "']", "#left-table-div").width(width);
+                });
+            }
+            function get_cart_item(data) {
+
+                var item = $(".cart_item_clone").clone(true);
+                item.removeClass("cart_item_clone");
+                init_cart_info(item, data);
+                return item
+            }
+            function init_cart_info(item, data) {
+                for (var i in data) {
+                    item.attr("data-" + i, data[i]);
+                    $("[data-name='" + i + "']", item).text(data[i]);
+                }
+                $(item).attr("data-info", JSON.stringify(data));
+            }
+            function number_change(type, e) {
+                var cart_item = $(e).parents(".cart_item");
+                var price = $(cart_item).attr("data-price");
+                var number = $(cart_item).attr("data-number");
+                var info = JSON.parse($(cart_item).attr("data-info"));
+                if (!number) number = 1;
+                if (type == 'minus' && number > 1) number--;
+                else if (type == 'plus') number++;
+                info["number"] = number;
+                info["totalamount"] = (parseFloat(price) * number).toFixed(2);
+                init_cart_info(cart_item, info);
+            }
+            //function remove_cart(e) {
+            //    confirm("确认删除？",
+            //    function () {
+            //        $(e).parents(".cart_item").remove();
+            //    });
+            //}
+            //function confirm(msg, yf, nf, yt, nt) {
+            //    $(".modal-body", "#remindModal").html(msg);
+            //    $(".btn-default", $(".modal-footer", "#remindModal")).unbind("click").bind("click",
+            //    function () {
+            //        if (nf) nf();
+            //    }).text(nt == null ? "取消" : nt);
+            //    $(".btn-primary", $(".modal-footer", "#remindModal")).unbind("click").bind("click",
+            //    function () {
+            //        $("#remindModal").modal('hide');
+            //        if (yf) yf();
+            //    }).text(yt == null ? "确定" : yt);
+
+            //    $("#remindModal").modal('show');
+            //}
+            function guadan(e) {
+                var name = $("#name").val();
+                var guadan = {
+                    name: name,
+                    totalnumber: 0,
+                    datetime: new Date().Format("hh:mm"),
+                    infos: []
+                };
+                $(".cart_item", "#left-table-div").each(function () {
+                    guadan.totalnumber++;
+                    guadan.infos.push(JSON.parse($(this).attr("data-info")));
+                });
+                var item = $("[data-name='" + name + "']", $(e).next());
+                if (item.length < 1) {
+                    item = get_guadan_item(guadan);
+                    $(e).next().append(item);
+                }
+                init_guadan_info(item, guadan);
+
+                $(".badge", e).text($(".guadan_item", "#btn_guadan").length);
+            }
+            function get_guadan_item(data) {
+                var item = $(".guadan_item_clone").children().clone(true);
+                init_guadan_info(item, data);
+                return item
+            }
+            function init_guadan_info(item, data) {
+                for (var i in data) {
+                    item.attr("data-" + i, data[i]);
+                    $("[data-name='" + i + "']", item).text(data[i]);
+                }
+                $(item).attr("data-info", JSON.stringify(data));
+            }
+            function guadan_change(e) {
+                var info = JSON.parse($(e).parent().attr("data-info"));
+                init_cart(info.infos);
+                init_user_info(info)
+            }
+            function init_user_info(data) {
+                for (var i in data) {
+                    $("[data-name='" + i + "']", ".user-info-form").val(data[i]);
+                }
+            }
+            //预约
+            //function reserve(e) {
+            //$("#datetimepicker").datetimepicker({
+            //    format: "yyyy-mm-dd",
+            //    language: 'zh-CN',
+            //    startView: 2,
+            //    minView: 2
+            //}).val(new Date().Format("yyyy-MM-dd"));
+            //init_reserve();
+            //$('#reserveModal').on('shown.bs.modal',
+            //function (e) {
+            //    initlayout_reserve();
+
+            //})
+            //}
+            function initlayout_reserve() {
+                var foot_height = $("#reserve-modal-footer").outerHeight(true);
+                var total = document.documentElement.clientHeight;
+                var heigth = total - foot_height - 35 - $("#reserve-modal-body").top();
+                $("#reserve-modal-body").outerHeight(heigth);
+            }
+            //function init_reserve() {
+            //    var startTime = 9 * 60 + 30;
+            //    var endTime = 24 * 60;
+            //    var interval = 30;
+            //    var index = 0;
+            //    for (var i = startTime; i < endTime; i += interval) {
+            //        var date = new Date();
+            //        var date_value = new Date(date.getYear(), date.getMonth(), date.getDay(), parseInt(i / 60), i % 60);
+            //        var data_text = date_value.Format("hh:mm");
+            //        $("thead tr", "#reserve_top_table").append("<td onclick='reserve_select_time(this)' class='reserve_td' index=" + index + " style='border-bottom-width：none;'>" + data_text + "</td>");
+            //        index++;
+            //    }
+
+            //}
+            function reserve_select_time(e) {
+
+                if ($(e).parent().find(".isClick").length == 2) $(e).siblings().removeClass("isClick").removeClass("isSelect");
+                if ($(e).hasClass("isClick")) $(e).removeClass("isClick");
+                else {
+                    $(e).addClass("isClick isSelect");
+                }
+                var f_i = parseInt($(".isClick:first").attr("index"));
+                var l_i = parseInt($(".isClick:last").attr("index"));
+                if (f_i != l_i) {
+                    $("thead tr td:gt(" + f_i + "):lt(" + (l_i - f_i + 1) + ")", "#reserve_top_table").addClass("isSelect");
+                    var f_l = $(".isClick:first").get(0).offsetLeft;
+                    var l_l = $(".isClick:last").get(0).offsetLeft;
+                    var point = {
+                        top: 3 + "px",
+                        left: ((l_l - f_l) / 2 + f_l) + "px"
+                    };
+                    $(".reserve_btn_div").css(point).show();
+                } else {
+                    $(".reserve_btn_div").hide();
+                }
+            }
+
+
+
+
+
+            function get_reserve_xm_item(data) {
+                var item = $(".reserve_xm_item_clone").clone(true);
+                item.removeClass("reserve_xm_item_clone");
+                $("a[data-toggle='collapse']", item).attr("href", "#reserve_xm_item_collapse_" + data.id);
+                $(".panel-collapse", item).attr("id", "reserve_xm_item_collapse_" + data.id);
+                item.fillData(data)
+                return item
+            }
+            function remove_reserve_xm_item(e) {
+                $(e).parents(".reserve_xm_item:first").remove();
+            }
+            function date_change(e) {
+                $('#datetimepicker').datetimepicker('show');
+
+            }
+            //客户
+            var Customer = {
+                list: function () {
+                    return $(".dropdownMenuCustomer-list");
+                },
+                template: function () {
+                    return $(".customer_item_clone");
+                },
+                div: function () {
+                    return $(".dropdownMenuCustomer-div");
+                },
+                input: function () {
+                    return $("#dropdownMenuCustomer");
+                },
+                button: function () {
+                    return $("#dropdownMenuCustomer-search-btn");
+                },
+                container: function () {
+                    return $("#dropdownMenuCustomer-container");
+                },
+                form: function () {
+                    return $(".user-info-form");
+                }
+
+                ,
+                customer: null,
+                init: function () {
+                    $this = this;
+                    $this.layout();
+                    $this.load();
+                    $this.bindEvent();
+                },
+                getItem: function (data) {
+                    $this = this;
+                    var item = $this.template().children().clone(true);
+                    item.fillData(data);
+                    return item
+                },
+                addItem: function (data) {
+                    $this = this;
+                    $this.list().append($this.getItem(data));
+                },
+                fillList: function (data) {
+                    $this = this;
+                    $(data).each(function () {
+                        $this.addItem(this);
+                    });
+                },
+                empty: function () {
+                    $this = this;
+                    $this.list().empty();
+                },
+                load: function () {
+                    $this = this;
+                    $this.div().droploadInit(PROCEDURE.GETCUSTOMER, '',
+                    function (rs) {
+                        if (rs.result) {
+                            Customer.fillList(rs.data[0]);
+                        }
+                    });
+                },
+                refresh: function (pageNumber, parameter) {
+                    $this = this;
+                    $this.empty();
+                    $this.div().droploadRefresh(pageNumber, parameter);
+                },
+                bindEvent: function () {
+                    $this = this;
+                    $this.input().bindReplace({
+                        keyup: function () {
+                            Customer.refresh(1, $(this).val());
+                        },
+                        change: function () {
+                            Customer.refresh(1, $(this).val());
+
+                        }
+                    });
+
+                    $this.container().bindReplace('hide.bs.dropdown',
+                    function () {
+                        if (Customer.input().hasClass("isOpen")) {
+                            Customer.input().removeClass("isOpen");
+                            return false;
+                        }
+
+                    });
+                    $this.button().bindReplace("click",
+                    function () {
+                        if (!Customer.container().hasClass("open")) {
+                            Customer.input().addClass("isOpen");
+                            Customer.input().click();
+
+                        }
+                        Customer.refresh(1, Customer.input().val());
+                    });
+                },
+                layout: function () {
+                    $this = this;
+                    $this.div().width($(".header-operation").width());
+                },
+                fillCustomer: function (data) {
+                    if (!IsNullOrWhiteSpace(data)) {
+                        Customer.form().fillData(data);
+                        Customer.input().val(data.name);
+                        Customer.customer = data;
+                    }
+                },
+                customerCartChange: function (data) {
+                    Cart.guadanChange($("a", Cart.getGuadanItem().filter("[data-id='" + data.id + "']")));
+
+                },
+                customerChange: function (e) {
+                    var data_new = $(e).parent().getData();
+                    var data_old = Customer.form().getData();
+                    if (data_old == null || data_new.id != data_old.id) {
+                        if (!Cart.isNull()) {
+                            remind.confirm("客户购物车存在商品是否挂单？",
+                            function () {
+                                Cart.guadan();
+                            },
+                            null, "挂单", null,
+                            function () {
+                                Customer.customerCartChange(data_new);
+                            });
+                        } else {
+                            Customer.customerCartChange(data_new);
+                        }
+                        Customer.fillCustomer(data_new);
+                        Customer.ecot.init();
+                    }
+
+                }
+                //已有疗程
+                ,
+                ecot: {
+                    details: $entity.getEntity({
+                        name: "ecotdetails",
+                        load: function () {
+                            this.fillList(this.data);
+                        },
+                        init: function (_control, _data) {
+                            this.list = _control;
+                            this.data = _data;
+                            this.empty();
+                            this.load();
+                        }
+                    })
+                    , list: function () {
+                        return $("#ecot-accordion");
+                    }
+
+                    ,
+                    template: function () {
+
+                        return $(".ecot_item_clone");
+                    },
+                    getTemplate: function () {
+                        $this = this;
+                        var item = $this.template().clone(true);
+                        item.removeClass("ecot_item_clone");
+                        var id = GetOnlyId();
+                        $("a[data-toggle='collapse']", item).attr("href", "#" + id);
+                        $(".collapse", item).attr({ "id": id });
+                        return item;
+                    }
+
+                    ,
+                    getItem: function (data) {
+                        $this = this;
+                        var item = $this.getTemplate();
+                        item.fillData(data);
+                        return item
+                    },
+                    addItem: function (data) {
+                        $this = this;
+
+                        $this.list().append($this.getItem(data));
+                    },
+                    fillList: function (data) {
+                        $this = this;
+                        $(data).each(function () {
+
+                            $this.addItem(this);
+                        });
+                    },
+                    empty: function () {
+                        $this = this;
+                        $this.list().empty();
+                    },
+                    load: function (_customer) {
+                        $this = this;
+                        Send(PROCEDURE.GETYIYOULIAOCHENG, {
+                            customerId: _customer.id
+                        },
+                        function (rs) {
+                            if (rs.result) {
+                                $this.fillList(RelationData(rs.data[0], rs.data[1], "yongyouliaochengId", "details"));
+                            }
+
+                        });
+                    },
+                    init: function () {
+                        $this = this;
+                        $this.empty();
+                        $this.load(Customer.customer);
+                    }
+
+                }
+
+            };
+
+            var Cart = {
+                div: function () {
+                    return $("#left-table-div");
+                },
+                head: function () {
+                    return $("#left-table-header");
+                },
+                item: function () {
+                    return $(".cart_item", "#left-table-div");
+                },
+                guadanDiv: function () {
+                    return $("#btn_guadan");
+                },
+                guadanMenu: function () {
+                    return $(".dropdown-menu", "#btn_guadan")
+                },
+                guadanItem: function () {
+                    return $(".guadan_item", this.guadanMenu());
+                },
+                guadanTemplate: function () {
+                    return $(".guadan_item_clone");
+                },
+                template: function () {
+                    return $(".cart_item_clone");
+                },
+                guadanBadge: function () {
+                    return $(".badge", "#btn_guadan_dropdown")
+                },
+
+                data: {
+                    guadan: {}
+                },
+                initCart: function (data) {
+                    var $this = this;
+                    $this.empty();
+                    $this.fillCart(data)
+                },
+                fillCart: function (data) {
+                    $this = this;
+                    $(data).each(function () {
+                        $this.addItem(this);
+                    });
+                },
+                getNewGuadanItem: function () {
+                    $this = this;
+                    return $this.guadanTemplate().children().clone(true);
+
+                },
+                fillGuadanItem: function (item, data) {
+                    item.eq(0).fillData(data);
+                    return item;
+                },
+                getGuadanItem: function (data) {
+                    $this = this;
+                    if (IsNullOrWhiteSpace(data)) return $this.guadanItem();
+                    else {
+                        var item = $this.getNewGuadanItem();
+
+                        $this.fillGuadanItem(item, data);
+
+                        return item
+                    }
+                },
+                addGuadanItem: function (data) {
+                    $this = this;
+                    $this.guadanMenu().append($this.getGuadanItem(data));
+                },
+                shoppingCart: function (e, t, m) {
+                    if (IsNullOrWhiteSpace(Customer.customer)) {
+                        remind.alert("请选择客户！");
+                        return;
+                    }
+                    var $this = this;
+                    var data;
+                    if (m == MODULAR.PROJECTPRODUCTS) {
+                        data = $(e).parents(".pp_item").getData();
+                    } else if (m == MODULAR.COURSEPROMOTION) {
+                        data = $(e).parents(".cp_item").getData();
+                    } else if (m == MODULAR.HAVECOURSE) {
+                        data = Customer.ecot.details.getData(e);
+
+                        if (data.specificNumber == 0) return;
+                        data.specificNumber = data.specificNumber - 1;
+                        Customer.ecot.details.setData(data);
+                    }
+                    data.class = GetClassKey(t, GetBasicsTypeByKey(data.basicsType));
+                    $this.addItem(data);
+                },
+                removeCart: function (e) {
+                   remind.confirm("确认删除？", function () {
+                        var item = $(e).parents(".cart_item");
+                        var data = item.getData();
+                        if (data.class == 15) {
+                            var from_data = Customer.ecot.details.getControl(data.FROMCONTROLID).getData();
+                            from_data.specificNumber = from_data.Number;
+                            Customer.ecot.details.setData(from_data);
+                        }
+                        item.remove();
+                    });
+                },
+                numberChange: function (t, e) {
+                    var $this = this;
+                    var cart_item = $(e).parents(".cart_item");
+                    var price = $(cart_item).attr("data-price");
+                    var number = $(cart_item).attr("data-number");
+                    var data = $(cart_item).getData();
+                    if (!number) number = 1;
+                    if (t == CALCULATION.MINUS && number > 1) number--;
+                    else if (t == CALCULATION.PLUS) number++;
+                    data["number"] = number;
+                    data["totalamount"] = (parseFloat(price) * number).toFixed(2);
+                    if (data.class == 15) {
+                        var from_data = $entity.entity.getControl(data.FROMCONTROLID).getData();
+                        from_data.specificNumber = from_data.Number - number;
+                        if (number > from_data.Number) number = from_data.Number;
+                        $entity.entity.setItem(from_data);
+                    }
+                    cart_item.fillData(data);
+                },
+                addItem: function (data) {
+                    var $this = this;
+                    var condition = "[data-id='" + data.id + "'][data-class='" + data.class + "']";
+                    if (data.class == 15) condition += "[data-yongyouliaochengid='" + data.yongyouliaochengId + "']";
+                    if ($this.getItem().is(condition)) {
+                        var item = $this.getItem().filter(condition);
+                        $this.numberChange(CALCULATION.PLUS, $(".cart_item_number", item).find("a").eq(1));
+                    } else {
+                        data["number"] = data["number"] == null ? 1 : data["number"];
+                        data["totalamount"] = data["totalamount"] == null ? (parseFloat(data.price) * 1).toFixed(2) : parseFloat(data["totalamount"]).toFixed(2);
+
+                        var item = $this.getItem(data);
+                        if (data.class == 15) {
+                            $("[data-name='totalamount']", item).addClass("crossout");
+                        }
+                        $this.div().append(item);
+                        $this.layout_table();
+                    }
+                },
+                getNewItem: function () {
+                    $this = this;
+                    return $this.template().clone(true).removeClass("cart_item_clone");
+
+                },
+                getItem: function (data) {
+                    $this = this;
+                    if (IsNullOrWhiteSpace(data)) return $this.item();
+                    else {
+                        var item = $this.getNewItem();
+                        item.fillData(data);
+                        return item;
+                    }
+                },
+                getData: function () {
+                    $this = this;
+                    var data = [];
+                    $this.getItem().each(function () {
+                        data.push($(this).getData());
+                    });
+                    return data;
+                },
+                empty: function () {
+                    $this = this;
+                    $this.item().remove();
+                },
+                isNull: function () {
+                    $this = this;
+                    return $this.getItem().length == 0;
+                },
+                guadan: function () {
+                    var $this = this;
+                    var data = {
+                        id: Customer.customer.id,
+                        name: Customer.customer.name,
+                        totalnumber: 0,
+                        datetime: new Date().Format("hh:mm"),
+                        infos: [],
+                        customer: Customer.customer
+                    };
+                    $this.item().each(function () {
+                        data.totalnumber++;
+                        data.infos.push($(this).getData());
+                    });
+                    $this.data.guadan[Customer.customer.id] = data;
+                    if (!$this.getGuadanItem().is("[data-id='" + Customer.customer.id + "']")) {
+
+                        $this.addGuadanItem(data);
+                    } else {
+                        var item = $this.getGuadanItem().filter("[data-id='" + Customer.customer.id + "']");
+
+                        $this.fillGuadanItem(item, data); $this.guadanChange($("a", item));
+                    }
+                    $this.guadanBadge().text($this.getGuadanItem().length);
+
+                },
+                guadanChange: function (e) {
+                    var $this = this;
+                    var data = $(e).parent().getData();
+
+                    if (IsNullOrWhiteSpace(data)) {
+                        $this.empty();
+                        return;
+                    }
+
+                    $this.initCart(data.infos);
+                    Customer.fillCustomer(data.customer);
+
+                },
+                layout_table: function () {
+                    $this = this;
+                    layout_table($this.head(), $this.div());
+                }
+
+            };
+            //结算实体
+            var Settlement = $entity.getEntity({
+                name: "settlement",
+                loadBeginCallback: function () {
+                    this.setResponseData(Cart.getData());
+                },
+                numberChange: function (_e) {
+                    var _data = this.getTheItemData(_e);
+                    var _number = _data.number;
+                    if ($(_e).hasClass("btn-minus")) {
+                        _number--;
+                        if (_number < 1) _number = 1;
+                    } else if ($(_e).hasClass("btn-plus")) {
+                        _number++;
+                        if (_number > _data.stock) _number = _data.stock;
+                    }
+                    _data.number = _number;
+                    _data.totalamount = _data.price * _data.number;
+                    this.setData(_data);
+                },
+                setTotal: function (_v) {
+                    Settlement.getControl("total").text(parseFloat(_v).toFixed(2));
+                },
+                billing: function () {
+                    var _data = this.getData("commissionPost");
+                    var _bool = false;
+                    $(_data).each(function () {
+                        var _cbool = false;
+                        $(this).each(function () {
+                            if (!IsNullOrWhiteSpace(this.servicePersonals) && this.servicePersonals.length > 0 && this.servicePersonals[0].name != "未分配") {
+                                _cbool = true;
+                                return false;
+                            }
+                        });
+                        if (!_cbool) {
+                            _bool = false;
+                            return false;
+                        }
+                        else _bool = true;
+                    });
+                    if (!_bool) {
+                        remind.alert("请选择服务人员！");
+                        return false;
+                    }
+                    Billing.openWin();
+                },
+                openWin: function () {
+                    this.init();
+                }
+            });
+            //开单实体
+            var Billing = $entity.getEntity({
+                name: "billing",
+                loadConfigure: {
+                    callback: function (_this) {
+                        _this.getField().bind("keyup", Billing.calculation);
+                    }
+                },
+                calculation: function () {
+                    var _name = $(this).attr("data-name");
+                    var _data = Billing.response.data;
+                    var _oval = parseFloat(_data[_name]);
+                    var _yishoujine = TryParseFloat(_data.shuaka) + TryParseFloat(_data.xianjin) + TryParseFloat(_data.kouchuzhi) + TryParseFloat(_data.koudj) + TryParseFloat(_data.koukaje) + TryParseFloat(_data.kouzj);
+                    var _yingshouje = TryParseFloat(_data.yingshouje);
+                    var _qiankuan = _yingshouje - _yishoujine;
+                    var _ndata = {};
+                    if (_qiankuan < 0) {
+                        _ndata[_name] = _oval + _qiankuan;
+                        _qiankuan = 0;
+                        _yishoujine = _yingshouje;
+                    }
+                    _ndata.yishoujine = _yishoujine;
+                    _ndata.qiankuan = _qiankuan;
+                    Billing.setData(_ndata);
+
+                },
+                loadBeginCallback: function () {
+                    var _sdata = Settlement.getData();
+                    var _total = $entity.operation(_sdata, "totalamount", $entity.OPERATION.SUM);
+                    var _data = {
+                        yingshouje: _total,
+                        yishoujine: 0.00,
+                        qiankuan: _total,
+                        shuaka: 0.00,
+                        xianjin: 0.00,
+                        kouchuzhi: 0.00,
+                        koudj: 0.00,
+                        koukaje: 0.00,
+                        kouzj: 0.00
+                    }
+                    this.setResponseData(_data);
+                },
+
+                openWin: function () {
+                    this.init();
+                    this.getModal().modal("show");
+                },
+                submit: function () {
+                    var _bdata = this.getData();
+                    var _sdata = Settlement.getData();
+
+                    var _details = [];
+                    $(_sdata).each(function () {
+                        var _servicePersonals = [];
+                        $(this.commissionPost).each(function (_i, _e) {
+                            $(_e.servicePersonals).each(function () {
+                                if (this.name != "未分配")
+                                    _servicePersonals.push({ id: this.id, type: _e.id })
+                            })
+                        });
+                        _details.push({ id: this.id, "class": this.class, number: this.number, servicePersonals: _servicePersonals })
+                    });
+                    _bdata.details = _details;
+                    var _data = JSON.stringify(_bdata);
+                  
+
+                    Send(PROCEDURE.PLACEORDER, {
+                        customerId: Customer.customer.id,
+                        data: _data
+                    },
+                    function (rs) {
+                        if (rs.result) {
+                            Billing.getModal().modal("hide");
+                            Settlement.getModal().modal("hide");
+                            Cart.empty();
+                            
+                            remind.confirm("开单成功,是否打印凭条？", function () {
+                                Send(PROCEDURE.GETPRINTTICKERTAPE, {
+                                    xiaofeikdId:rs.info
+                                }, function (rs1) {
+                                    if (rs1.result) {
+                                        Tickertape.print(rs1.data);
+                                    } else {
+                                        remind.alert("打印凭条失败（" + rs.info + "）！")
+                                    }
+                                });
+                            }, null, "打印");
+                          
+                        } else {
+                            remind.alert("开单失败（" + rs.info + "）！");
+                        }
+                    });
+
+                }
+            });
+            var Tickertape = $entity.getEntity({
+                name: "tickertape",
+                printData:null,
+                print: function (_data) {
+                    this.printData = _data[0][0];
+          
+                    TickertapeDetails.print(_data[1]);
+                    this.init();
+                   
+                    
+                },
+                initCallback: function () {
+                    this.getForm().jqprint();
+                },
+                loadBeginCallback: function () {
+                    this.setResponseData(this.printData);
+                }
+            });
+            var TickertapeDetails = $entity.getEntity({
+                name: "tickertapeDetails",
+                printData: null,
+                print: function (_data) {
+                    this.printData = _data;
+                    this.init();
+                },
+                loadBeginCallback: function () {
+                    this.setResponseData(this.printData);
+                }
+            });
+            //var Settlement = {
+            //    modal: function () {
+            //        return $("#settlementModal");
+            //    },
+            //    div: function () {
+            //        return $(".settlement_list_div")
+            //    },
+            //    template: function () {
+            //        return $(".settlement_item_clone");
+            //    },
+            //    list: function () {
+            //        return $(".settlement_list");
+            //    },
+            //    settlement_btn: function () {
+            //        return $("#btn_settlement");
+            //    },
+            //    thead: function () {
+            //        return $(".settlement_list_thead");
+            //    },
+            //    tbody: function () {
+            //        return $(".settlement_list_tbody");
+            //    },
+            //    total: function () {
+            //        return $(".settlement_totalamount");
+            //    },
+            //    settlement_submit_btn: function () {
+            //        return $(".settlement_submit");
+            //    },
+            //    init: function () {
+            //        $this = this;
+            //        $this.bindEvent();
+            //    },
+            //    layout: function () {
+            //        $this = this;
+            //        $this.div().setToModalContentMaxHeight();
+            //    },
+            //    layout_table: function () {
+            //        $this = this;
+
+            //        layout_table($this.thead(), $this.tbody());
+            //    },
+            //    getData: function () {
+            //        $this = this;
+            //        var data = [];
+            //        $this.getItem().each(function () {
+            //            data.push($(this).getData());
+            //        });
+            //        return data;
+            //    }
+            //    ,
+            //    calculation: function (item, isplus) {
+            //        var $this = this;
+            //        var $item = $(item).parents("tr:first");
+            //        var data = $item.getData();
+            //        var number = data.number;
+            //        if (!isplus) {
+            //            number--
+            //            if (number < 1) number = 1;
+            //        } else {
+            //            number++;
+            //            if (number > data.stock) number = data.stock;
+            //        }
+
+            //        data.number = number;
+            //        data.totalamount = data.price * data.number;
+            //        $item.fillData(data);
+            //    }
+
+            //    ,
+            //    statistics: function () {
+            //        var $this = this;
+            //        var total = 0;
+            //        var data = $this.getData();
+            //        $(data).each(function () {
+            //            total += parseFloat(this.totalamount);
+            //        });
+            //        Settlement.total().fillData({
+            //            total: total,
+            //            data: data
+            //        });
+            //    },
+            //    bindEvent: function () {
+            //        var $this = this;
+
+            //        $this.modal().bindReplace('shown.bs.modal',
+            //        function (e) {
+            //            Settlement.layout();
+            //            Settlement.refresh();
+            //            Settlement.statistics();
+            //        }); $this.modal().bindReplace('show.bs.modal',
+            //        function (e) {
+            //            if (Settlement.modal().hasClass("isHide")) {
+            //                Settlement.modal().removeClass("isHide");
+            //                return false;
+            //            }
+            //        }); $this.settlement_btn().bindReplace("click",
+            //        function () {
+            //            if (Cart.getData().length == 0) {
+            //                Settlement.modal().addClass('isHide');
+            //            }
+            //        });
+            //        $this.settlement_submit_btn().bindReplace("click",
+            //        function () {
+            //            Settlement.submit();
+            //        });
+            //    },
+            //    submit: function () {
+            //        var data = JSON.stringify(Settlement.total().getData());
+            //        Send(PROCEDURE.PLACEORDER, {
+            //            loginName: User.info.LoginName,
+            //            password: User.info.Password,
+            //            customerId: Customer.customer.id,
+            //            data: data
+            //        },
+            //        function (rs) {
+
+            //            if (rs.result) {
+            //                Settlement.modal().modal("hide");
+            //                remind.alert("开单成功！");
+            //                Cart.empty();
+            //            } else {
+            //                remind.alert("开单失败（" + rs.info + "）！");
+            //            }
+            //        });
+
+            //    },
+            //    bindItemEvent: function (item) {
+
+            //        $(".btn-minus", item).bindReplace("click",
+            //        function () {
+            //            Settlement.calculation(this, false);
+            //            Settlement.statistics();
+            //        });
+            //        $(".btn-plus", item).bindReplace("click",
+            //        function () {
+
+            //            Settlement.calculation(this, true);
+            //            Settlement.statistics();
+            //        });
+            //        $(".remove_settlement_item", item).bindReplace("click",
+            //        function () {
+            //            $(this).parents("tr:first").remove();
+            //            Settlement.statistics();
+            //        })
+            //    },
+            //    getItem: function (data) {
+            //        $this = this;
+            //        if (IsNullOrWhiteSpace(data)) return $this.list().find("tr");
+            //        var item = $this.template().find("tr").clone(true);
+            //        item.fillData(data);
+            //        $this.bindItemEvent(item);
+            //        return item
+            //    },
+            //    addItem: function (data) {
+            //        $this = this;
+            //        $this.list().append($this.getItem(data));
+            //    },
+            //    fillList: function (data) {
+            //        $this = this;
+            //        $(data).each(function () {
+            //            $this.addItem(this);
+            //        });
+            //        $this.layout_table();
+            //    },
+            //    empty: function () {
+            //        $this = this;
+            //        $this.list().empty();
+
+            //    },
+            //    load: function () {
+            //        $this = this;
+            //        $this.fillList(Cart.getData());
+            //    },
+            //    refresh: function () {
+            //        $this = this;
+            //        $this.empty();
+            //        $this.fillList(Cart.getData());
+
+            //    }
+            //}
+            //房间
+            var Room = $entity.getEntity({
+                name: "room",
+                loadConfigure: {
+                    procedureName: PROCEDURE.GETFANGJIAN,
+                    data: { condition: '' },
+                    callback: function (_this) {
+                        _this.getModal().modal("show");
+                    }
+                },
+                initCallback: function () {
+                    this.getModal().bindReplace('shown.bs.modal',
+                    function (e) {
+                        var _room = Room.getTitle().getData();
+                        if (_room) {
+                            Room.select(Room.findItem("[data-id='" + _room.id + "']").children().get(0));
+                        }
+                    });
+                },
+                selectRoom: null,
+                select: function (e) {
+                    var _item = $(e).parent();
+                    this.selectRoom = _item.getData();
+                    _item.siblings().removeClass("selected");
+                    _item.addClass("selected");
+                },
+                selectSave: function () {
+                    var rDate = this.selectRoom;
+                    if (IsNullOrWhiteSpace(rDate)) {
+                        remind.alert("请选择房间！");
+                        return false;
+                    }
+                    var tDate = ReservationDate.modalButton().getData();
+                    ReservationSelect.openWin($.extend(true, {}, { room: rDate }, tDate));
+                },
+                openWin: function (e) {
+                    this.init();
+                }
+
+            });
+            //预约实体
+            var Reservation = $entity.getEntity({
+                name: "reservation",
+                attribute: [{ entity: "reservationdate" }],
+                dateControl: function () {
+                    return this.getControl("datetimepicker");
+                },
+                dateChange: function () {
+                    this.dateControl().datetimepicker('show');
+                },
+                initCallback: function () {
+                    this.dateControl().datetimepicker({
+                        format: "yyyy-mm-dd",
+                        language: "zh-CN",
+                        startView: 2,
+                        minView: 2
+                    }).val(new Date().Format("yyyy-MM-dd"));
+                },
+                openWin: function (e) {
+                    this.init();
+                }
+            });
+            //预约时间实体
+            var ReservationDate = $entity.getEntity({
+                name: "reservationdate",
+                modalButton: function () {
+                    return this.getControl("modalButton");
+                },
+                initCallback: function () {
+                    this.modalButton().hide();
+                },
+                loadBeginCallback: function () {
+                    var startTime = 9 * 60 + 30;
+                    var endTime = 24 * 60;
+                    var interval = 30;
+                    var index = 0;
+                    var _data = [];
+                    for (var i = startTime; i < endTime; i += interval) {
+                        var date = new Date();
+                        var date_value = new Date(date.getFullYear(), date.getMonth(), date.getDate(), parseInt(i / 60), i % 60);
+
+                        _data.push({
+                            timeInterval: date_value,
+                            index: index
+                        });
+                        index++;
+                    }
+                    this.setResponseData(_data);
+                },
+                select: function (e) {
+                    if ($(e).parent().find(".isClick").length == 2) $(e).siblings().removeClass("isClick").removeClass("isSelect");
+                    if ($(e).hasClass("isClick")) $(e).removeClass("isClick");
+                    else {
+                        $(e).addClass("isClick isSelect");
+                    }
+                    var click_f = $(".isClick:first");
+                    var click_l = $(".isClick:last");
+                    var f_i = parseInt(click_f.getData("index"));
+                    var l_i = parseInt(click_l.getData("index"));
+
+                    if (f_i != l_i) {
+                        $("td:gt(" + f_i + "):lt(" + (l_i - f_i + 1) + ")", this.getList()).addClass("isSelect");
+                        var f_l = click_f.get(0).offsetLeft;
+                        var l_l = click_l.get(0).offsetLeft;
+
+                        this.modalButton().css({
+                            top: "1px",
+                            left: ((l_l - f_l) / 2 + f_l) - 1 + "px"
+                        }).show();
+                        this.modalButton().fillData({ "date": click_f.getData("timeinterval"), "sDate": click_f.getData("timeinterval"), "eDate": click_l.getData("timeinterval") });
+                    } else {
+                        this.modalButton().hide();
+                    }
+                }
+            });
+            //预约选择实体
+            var ReservationSelect = $entity.getEntity({
+                name: "reservationSelect",
+                selectDate: null,
+                openWin: function (_data) {
+                    if (!IsNullOrWhiteSpace(_data)) this.getTitle().fillData(_data);
+                    this.init();
+                    this.getModal().modal("show");
+                },
+                attribute: [{ entity: "reservationItem" }, { entity: "existingProject" }],
+                save: function (e) {
+                    var _tdata = this.getTitle().getData();
+                    var _edata = ExistingProject.get();
+                    $(_edata).each(function () {
+                        if (IsNullOrWhiteSpace(this.servicePersonals) || this.servicePersonals.length < 1) {
+                            ExistingProject.collapse("show", ExistingProject.getControl(this));
+                            remind.alert("请选择服务人员！");
+                            return false;
+                        }
+                    });
+                    var _data = {
+                        sDate: _tdata.sDate,
+                        eDate: _tdata.eDate,
+                        room: _tdata.room.id,
+                        room: _tdata.room.id,
+                        projects: _edata
+                    }
+                 
+                }
+            });
+            //预约项目实体
+            var ReservationItem = $entity.getEntity({
+                name: "reservationItem",
+                loadConfigure: {
+                    procedureName: PROCEDURE.GETXIANGMUBYYUYUE,
+                    data: {
+                        condition: ''
+                    }
+                }
+                , addExistingProject: function (e) {
+                    var _item = this.getTheItem(e)
+                    var _data = _item.getData();
+                    ExistingProject.add(_data);
+                }
+            });
+            //已选项目实体
+            var ExistingProject = $entity.getEntity({
+                name: "existingProject",
+
+                getItemCallback: function (_item, _data) {
+                    var head_id = "reserve_xm_item_heading_" + _data.id;
+                    var collapse_id = "reserve_xm_item_collapse_" + _data.id;
+                    $("a[data-toggle='collapse']", _item).attr({ "href": "#" + collapse_id, "aria-controls": collapse_id });
+                    $(".panel-heading", _item).attr("id", head_id);
+                    $(".panel-collapse", _item).attr({ "id": collapse_id, "aria-labelledby": head_id });
+
+                },
+
+                remove: function (e) {
+                    this.getTheItem(e).remove();
+                },
+                add: function (_data) {
+
+                    this.addData(_data, true);
+                    this.refresh();
+                    this.collapse("show", this.findItem("[data-id='" + _data.id + "']"));
+                },
+                get: function () {
+                    return this.getData();
+                }
+
+            });
+            //预约已有项目人员选择实体
+            var Speplg = $entity.getEntity({
+                name: "speplg"
+            });
+            //系统用户实体
+            var User = {
+                info: GetSystemUser(),
+                init: function () {
+                    this.info = GetSystemUser();
+                },
+                verification: function () {
+                    var $this = this;
+                    $this.init();
+                    return $this.info != null;
+                }
+
+                ,
+                signOut: function () {
+                    var $this = this;
+                    Page.goLogin(function () {
+                        $.session.delete("user");
+                    });
+                }
+
+            }
+            var Theme = {
+                data: null,
+                theme: "默认",
+                link: function () {
+                    return $("#theme_link");
+                },
+                load: function (fn) {
+                    $this = this;
+                    Send(PROCEDURE.GETTHEME, null,
+                    function (rs) {
+                        if (rs.result) {
+                            $this.data = rs.data;
+                            if (fn) fn($this.data);
+                        } else console.log("加载主题列表失败！");
+                    });
+                },
+                init: function () {
+                    $this = this;
+                    $this.load();
+                    Allocation.load(function (data) {
+                        if (data != null) Theme.theme = data.theme;
+                        Theme.switchTheme();
+                    });
+                },
+                switchTheme: function (theme) {
+                    $this = this;
+                    theme = theme == null ? $this.theme : theme;
+                    $this.link().attr("href", "bootstrap/theme/" + theme + "/bootstrap-theme.min.css");
+                }
+            }
+
+            var Allocation = {
+                allocation: null,
+                modal: function () {
+                    return $("#allocationModal");
+                },
+                form: function () {
+                    $this = this;
+                    return $("form", $this.modal());
+                },
+                themeSelect: function () {
+                    $this = this;
+                    return $("select[data-name='theme']", $this.modal());
+                },
+                init: function () {
+                    var $this = this;
+                    Theme.load(function (data) {
+                        Allocation.fillThemeList(data);
+                    });
+                },
+                load: function (fn) {
+                    $this = this;
+                    var allocation = $.cookie('allocation');
+                    if (allocation == null) $.cookie('allocation', JSON.stringify({
+                        theme: Theme.theme
+                    })); allocation = $.cookie('allocation');
+
+                    $this.allocation = JSON.parse(allocation);
+                    if (fn) fn($this.allocation);
+                },
+                formInit: function () {
+                    $this = this;
+                    $this.form().fillData($this.allocation);
+                },
+                getThemeItem: function (data) {
+                    return $("<option>" + data + "</option>");
+                },
+                addThemeItem: function (data) {
+                    $this = this;
+
+                    $this.themeSelect().append($this.getThemeItem(data));
+                },
+                fillThemeList: function (data) {
+                    $this = this;
+                    $(data).each(function () {
+                        Allocation.addThemeItem(this);
+                    });
+                },
+                click: function () {
+                    $this = this;
+                    $this.formInit();
+                },
+                formSave: function () {
+                    $this = this;
+                    $.cookie('allocation', JSON.stringify($this.form().serializeJson()));
+                    remind.confirm("设置成功！<span style='color:red;font-size:12px;'>(刷新生效)<span>",
+                    function () {
+                        Page.reload();
+                    },
+                    null, "刷新", "确定")
+                }
+            };
+            //服务人员实体
+            var ServicePersonal = $entity.getEntity({
+                name: "servicePersonal",
+                type: null,
+
+                loadConfigure: {
+                    procedureName: PROCEDURE.GETYUANGONGXINXI,
+                    data: {
+                        businessUnitId: User.info.BusinessUnitId,
+                        condition: ''
+                    },
+                    callback: function (_this) {
+                        _this.getModal().modal("show");
+                        _this.selectChoiceItem(_this.fromData.servicePersonals);
+                    }
+                },
+                queryConfigure: {
+                    procedureName: "condition"
+                },
+                fromEntity: null,
+                fromData: null,
+                openWin: function (_e) {
+                    this.fromEntity = $entity.getTheEntity(_e);
+                    this.fromData = this.fromEntity.getTheItem(_e).getData() || {};
+                    this.init();
+                },
+                selectSave: function (e) {
+                    this.fromData.servicePersonals = this.getChoiceData();
+                    this.fromEntity.setData(this.fromData);
+                }
+            });
+            //提成岗位实体
+            var CommissionPost = $entity.getEntity({
+                name: "commissionPost",
+                getChartData: function (_data) {
+                    _data = _data || [{
+                        id: 1,
+                        name: "美容师",
+                        servicePersonals: [{
+                            name: "未分配"
+                        }]
+                    }, {
+                        id: 2,
+                        name: "美容顾问",
+                        servicePersonals: [{
+                            name: "未分配"
+                        }]
+                    }];
+                    $(_data).each(function (i, e) {
+                      
+                        if (e.servicePersonals.length == 0) {
+                            e.servicePersonals = [{
+                                name: "未分配"
+                            }];
+                        }
+                    });
+                    return _data;
+                },
+                loadBeginCallback: function () {
+
+                    this.setResponseData(this.getChartData(Settlement.getTheItemData(this.theTarget).commissionPost));
+
+                },
+                setDataBeginCallback: function (_data) {
+                    return this.getChartData(_data);
+                },
+                theTarget: null,
+                openWin: function (_e) {
+                    this.theTarget = _e;
+                    this.init();
+                },
+                save: function () {
+                    var _sData = Settlement.getTheItemData(this.theTarget);
+                    _sData.commissionPost = this.getData();
+                    Settlement.setData(_sData);
+                }
+
+            });
+            //var ServicePersonal = {
+            //    modal: function() {
+            //        return $("#servicePersonalModal");
+            //    },
+            //    listModal: function() {
+            //        return $("#servicePersonalListModal");
+            //    },
+            //    listDiv: function() {
+            //        return $(".servicePersonalListDiv", this.listModal());
+            //    },
+            //    listThead: function() {
+            //        return $(".servicePersonalListThead", this.listModal())
+            //    },
+            //    listTbody: function() {
+            //        return $(".servicePersonalListTbody", this.listModal())
+            //    },
+            //    listTemplate: function() {
+            //        return $(".servicePersonalItemClone")
+            //    },
+            //    list: function() {
+            //        return $(".servicePersonalList", this.listModal())
+            //    },
+            //    div: function() {
+            //        return $(".servicePersonalDiv", this.modal());
+            //    },
+            //    beauticianChartArea: function() {
+            //        return document.getElementById("beauticianChartArea").getContext("2d");
+            //    },
+            //    beautyConsultantChartArea: function() {
+            //        return document.getElementById("beautyConsultantChartArea").getContext("2d");
+            //    },
+            //    servicePersonalListQueryInput: function() {
+            //        return $("#servicePersonalListQueryInput")
+            //    },
+            //    getDefaultConfig: function() {
+            //        return {
+            //            type: 'pie',
+            //            data: {
+            //                datasets: [{
+            //                    data: [],
+            //                    backgroundColor: [],
+            //                    label: 'Dataset'
+            //                }],
+            //                labels: []
+            //            },
+            //            options: {
+            //                responsive: true
+            //            }
+            //        }
+            //    },
+            //    fillConfig: function(data) {
+
+            //        var $this = this;
+            //        var config = $this.getDefaultConfig();
+            //        var val = 100 / data.length;
+            //        var colors = [];
+            //        for (var i in chartColors) {
+            //            colors.push(chartColors[i]);
+            //        }
+            //        var index = 0;
+            //        $(data).each(function() {
+            //            config.data.datasets[0].data.push(val);
+            //            if (index > colors.length - 1) index = 0;
+            //            config.data.datasets[0].backgroundColor.push(colors[index]);
+            //            config.data.labels.push(this.name);
+            //            index++;
+            //        }); return config;
+            //    },
+            //    initChartArea: function(bdata, bcdata) {
+            //        bdata = bdata == null ? [{
+            //            name: "未分配"
+            //        }] : bdata;
+            //        bcdata = bcdata == null ? [{
+            //            name: "未分配"
+            //        }] : bcdata;
+            //        var $this = this;
+            //        if (IsNullOrWhiteSpace(window.beauticianChartConfig)) window.beauticianChartConfig = $this.fillConfig(bdata);
+            //        if (IsNullOrWhiteSpace(window.beautyConsultantChartConfig)) window.beautyConsultantChartConfig = $this.fillConfig(bcdata);
+            //        if (IsNullOrWhiteSpace(window.beauticianChart)) {
+            //            var area = $this.beauticianChartArea();
+            //            $(area).fillData(bdata);
+            //            window.beauticianChart = new Chart(area, window.beauticianChartConfig);
+            //        }
+
+            //        if (IsNullOrWhiteSpace(window.beautyConsultantChart)) {
+            //            var area = $this.beautyConsultantChartArea();
+            //            $(area).fillData(bcdata);
+            //            window.beautyConsultantChart = new Chart(area, window.beautyConsultantChartConfig);
+            //        }
+
+            //    },
+            //    updateChartArea: function(data, isall) {
+            //        var $this = this;
+            //        if (isall) {
+            //            data.beautician = data.beautician == null ? [{
+            //                name: "未分配"
+            //            }] : data.beautician;
+            //            $($this.beauticianChartArea()).fillData(data.beautician); window.beauticianChartConfig = $.extend(window.beauticianChartConfig, $this.fillConfig(data.beautician), true);
+            //            window.beauticianChart.update();
+            //            data.beautyConsultant = data.beautyConsultant == null ? [{
+            //                name: "未分配"
+            //            }] : data.beautyConsultant;
+            //            $($this.beautyConsultantChartArea()).fillData(data.beautyConsultant); window.beautyConsultantChartConfig = $.extend(window.beautyConsultantChartConfig, $this.fillConfig(data.beautyConsultant), true);
+            //            window.beautyConsultantChart.update();
+            //        } else {
+            //            if ($this.servicePersonaType == 0) {
+            //                $($this.beauticianChartArea()).fillData(data); window.beauticianChartConfig = $.extend(window.beauticianChartConfig, $this.fillConfig(data), true);
+            //                window.beauticianChart.update();
+            //            } else {
+            //                $($this.beautyConsultantChartArea()).fillData(data); window.beautyConsultantChartConfig = $.extend(window.beautyConsultantChartConfig, $this.fillConfig(data), true);
+            //                window.beautyConsultantChart.update();
+            //            }
+            //        }
+            //    },
+            //    getNewListItem: function() {
+            //        return $("tr", $this.listTemplate()).clone(true);
+
+            //    },
+            //    getListItem: function(data) {
+            //        $this = this;
+            //        if (IsNullOrWhiteSpace(data)) return $("tr", $this.list());
+            //        var item = $this.getNewListItem();
+            //        item.fillData(data);
+            //        return item
+            //    },
+            //    addListItem: function(data) {
+            //        $this = this;
+            //        $this.list().append($this.getListItem(data));
+            //    },
+            //    fillList: function(data) {
+            //        $this = this;
+            //        $(data).each(function() {
+            //            $this.addListItem(this);
+            //        });
+            //    },
+            //    emptyList: function() {
+            //        $this = this;
+            //        $this.list().empty();
+            //    },
+            //    listLoad: function(condition) {
+            //        $this = this;
+            //        condition = condition == null ? "": condition;
+            //        Send(PROCEDURE.GETYUANGONGXINXI, {
+            //            businessUnitId: User.info.BusinessUnitId,
+            //            condition: condition
+            //        },
+            //        function(rs) {
+            //            ServicePersonal.fillList(rs.data[0]);
+            //            ServicePersonal.listTableLayout();
+            //            var data;
+            //            switch (ServicePersonal.servicePersonaType) {
+            //                case 0:
+            //                    data = $(ServicePersonal.beauticianChartArea()).getData();
+            //                    break;
+            //                case 1:
+            //                    data = $(ServicePersonal.beautyConsultantChartArea()).getData();
+            //                    break;
+            //                case 2:
+            //                    ENTITY.getControl();
+            //                    break;
+            //            }
+            //              $(data).each(function() {
+            //                $(":checkbox", ServicePersonal.getListItem().filter("[data-id='" + this.id + "']")).prop('checked', true);
+            //            });
+
+            //        });
+
+            //    },
+            //    listQuery: function(e) {
+            //        $this = this;
+            //        var condition = $this.servicePersonalListQueryInput().val();
+            //        $this.listRefresh(condition);
+            //    },
+            //    listRefresh: function(condition, data) {
+            //        $this = this;
+            //        $this.emptyList();
+            //        $this.listLoad(condition, data);
+            //    },
+            //    click: function(e) {
+            //        $this = this;
+            //        $this.modal().fillData($(e).parents("tr:first").getData());
+            //    },
+            //    getData: function() {
+
+            //    },
+            //    save: function(e) {
+            //        var $this = this;
+            //        var bdata = $($this.beauticianChartArea()).getData();
+            //        var bcdata = $($this.beautyConsultantChartArea()).getData();
+            //        if (bdata.length == 1) {
+            //            if (IsNullOrWhiteSpace(bdata[0].id)) {
+            //                bdata = null;
+            //            }
+            //        }
+            //        if (bcdata.length == 1) {
+            //            if (IsNullOrWhiteSpace(bcdata[0].id)) {
+            //                bcdata = null;
+            //            }
+            //        }
+            //        var data = $.extend($this.modal().getData(), {
+            //            servicepersonal: {
+            //                beautician: bdata,
+            //                beautyConsultant: bcdata
+            //            }
+            //        },
+            //        true);
+            //        Settlement.getItem().filter("[data-id='" + data.id + "']").fillData(data);
+            //        Settlement.statistics();
+            //    },
+            //    servicePersonaType: null,
+            //    addServicePersonal: function(t, e) {
+            //        var $this = this;
+            //        $this.servicePersonaType = t;
+            //        var _data = ExistingProject.getData(e);
+            //        console.log(_data);
+            //    },
+            //    isNamedChange: function(e) {
+            //        var item = $(e).parents("tr:first");
+            //        var data = item.getData();
+            //        item.refreshData({
+            //            isNamed: parseInt(data.isNamed) == 0 ? 1 : 0
+            //        });
+            //    },
+            //    getSelectServicePersonalData: function() {
+            //        var $this = this;
+            //        var data = [];
+            //        $(":checked", $this.list()).each(function() {
+            //            data.push($(this).parents("tr:first").getData());
+            //        });
+            //        return data;
+            //    },
+            //    servicePersonalChange: function(e) {
+            //        var $this = this;
+            //        $this.updateChartArea($this.getSelectServicePersonalData())
+            //    },
+            //    servicePersonalIsLoad: false,
+            //    bindEvent: function() {
+
+            //        $this.modal().bindReplace('shown.bs.modal',
+            //        function(e) {
+            //            ServicePersonal.layout();
+            //            var smData = null
+            //            try {
+            //                smData = JSON.parse(ServicePersonal.modal().attr("data-servicepersonal"));
+            //            } catch(ex) {
+            //                smData = {
+            //                    beautician: null,
+            //                    beautyConsultant: null
+            //                };
+            //            }
+
+            //            if (!ServicePersonal.servicePersonalIsLoad) {
+            //                ServicePersonal.initChartArea(smData.beautician, smData.beautyConsultant);
+            //                ServicePersonal.servicePersonalIsLoad = true;
+            //            } else {
+            //                ServicePersonal.updateChartArea(smData, true);
+            //            }
+            //        });
+            //        $this.listModal().bindReplace('shown.bs.modal',
+            //        function(e) {
+
+            //            ServicePersonal.listRefresh();
+            //            ServicePersonal.listLayout();
+            //        });
+
+            //    },
+            //    layout: function() {
+            //        $this = this;
+            //        $this.div().setToModalContentMaxHeight();
+            //        var height = $this.div().getModalContentMaxHeight() - 40;
+
+            //        $(".panel-body", $this.div()).outerHeight(height);
+            //    },
+            //    listTableLayout: function() {
+            //        $this = this;
+            //        layout_table($this.listThead(), $this.listTbody());
+            //    },
+            //    listLayout: function() {
+            //        $this = this;
+            //        $this.listDiv().setToModalContentMaxHeight();
+            //    },
+            //    init: function() {
+            //        $this = this;
+            //        $this.bindEvent();
+            //    }
+            //}
+
+            //项目产品疗程促销
+            var ItemProductCoursePromotion = {
+                detailsTemplate: function () {
+                    return $(".cp_details_item_clone");
+                },
+                getDetailsItem: function (data) {
+                    var $this = this;
+                    var item = $this.detailsTemplate().children().clone(true);
+                    item.fillData(data);
+                    return item;
+                },
+                addDetailsItem: function (e, data) {
+                    var $this = this;
+                    $(e).append($this.getDetailsItem(data));
+
+                },
+                fillDetails: function (e, data) {
+                    var $this = this;
+                    $(data).each(function () {
+                        $this.addDetailsItem(e, this)
+                    });
+                }
+            }
+        </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-5 main-left">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="padding:0px;">
+                        <nav class="navbar navbar-default">
+                            <div class="navbar-header">
+                                <a class="navbar-brand" href="#">
+                                    <div class="user-header-container">
+                                        <span class="glyphicon glyphicon-user user-header">
+                                        </span>
+                                    </div>
+                                    <div class="user-info-container">
+                                        <span>
+                                            职位
+                                        </span>
+                                        <span>
+                                            人员
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="collapse navbar-collapse">
+                                <div class="input-group header-operation">
+                                    <div class="dropdown" id="dropdownMenuCustomer-container">
+                                        <input type="text" class="form-control" placeholder="顾客卡号/姓名/手机号" id="dropdownMenuCustomer"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <div class="dropdown-menu dropdownMenuCustomer-div" style="overflow-y:auto;height:250px;top:40px;"
+                                             aria-labelledby="dropdownMenuCustomer">
+                                            <ul class="dropdownMenuCustomer-list" style="width: 100%; list-style: none;"></ul>
+                                        </div>
+                                    </div>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" id="dropdownMenuCustomer-search-btn">
+                                            <span class="glyphicon glyphicon-search">
+                                            </span>
+                                        </button>
+                                        <button class="btn btn-default" type="button">
+                                            <span class="glyphicon glyphicon-plus">
+                                            </span>
+                                        </button>
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="glyphicon glyphicon-list-alt">
+                                            </span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                            <li>
+                                                <a href="#">
+                                                    <span class="glyphicon glyphicon-piggy-bank">
+                                                    </span>
+                                                    <span>
+                                                        &nbsp;&nbsp;会员充值
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="glyphicon glyphicon-gift">
+                                                    </span>
+                                                    <span>
+                                                        &nbsp;&nbsp;生日会员
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-toggle="modal" data-target="#reserveModal" onclick="Reservation.openWin(this)">
+                                                    <span class="glyphicon glyphicon-calendar">
+                                                    </span>
+                                                    <span>
+                                                        &nbsp;&nbsp;预约
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-toggle="modal" data-target="#allocationModal" onclick="Allocation.click()">
+                                                    <span class="glyphicon glyphicon-cog">
+                                                    </span>
+                                                    <span>
+                                                        &nbsp;&nbsp;设置
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" onclick="User.signOut()">
+                                                    <span class="glyphicon glyphicon-off">
+                                                    </span>
+                                                    <span>
+                                                        &nbsp;&nbsp;退出
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </div>
+                            </div>
+                            <form class="user-info-form">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="form-group">
+                                            <label for="no">
+                                                卡号
+                                            </label>
+                                            <input type="text" class="form-control" id="no" placeholder="卡号" data-name="no"
+                                                   disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <div class="form-group">
+                                            <label for="name">
+                                                姓名
+                                            </label>
+                                            <input type="text" class="form-control" id="name" placeholder="姓名" data-name="name"
+                                                   disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2" style="line-height:80px;">
+                                        <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseDetails"
+                                           aria-expanded="false" aria-controls="collapseDetails">
+                                            详细
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="collapse" id="collapseDetails">
+                                    <ul class="nav nav-pills nav-justified" role="tablist">
+                                        <li role="presentation" class="dropdown active">
+                                            <a id="userTabDrop" class="dropdown-toggle" data-toggle="dropdown" href="#"
+                                               role="button" aria-haspopup="true" aria-expanded="false">
+                                                用户信息
+                                                <span class="caret">
+                                                </span>
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="userTabDrop" id="userTabDrop-contents">
+                                                <li class="active">
+                                                    <a href="#userBasicDrop" role="tab" id="userBasicDropdown-tab" data-toggle="tab"
+                                                       aria-controls="userBasicDrop" aria-expanded="true">
+                                                        基本信息
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#userAccountDrop" role="tab" id="userAccountDropdown-tab" data-toggle="tab"
+                                                       aria-controls="userAccountDrop" aria-expanded="true">
+                                                        账户信息
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#userOtherDrop" role="tab" id="userOtherDropdown-tab" data-toggle="tab"
+                                                       aria-controls="userOtherDrop" aria-expanded="true">
+                                                        其他信息
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#ecot" aria-controls="home" role="tab" data-toggle="tab">
+                                                已有疗程
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#depositAlreadyAvailable" aria-controls="home" role="tab" data-toggle="tab">
+                                                已有订金
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div id="userTabContent" class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade" id="ecot">
+                                            <div class="panel-group" id="ecot-accordion" style="padding-top:15px;height:200px;">
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="depositAlreadyAvailable">
+                                            已有订金
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade active in" id="userBasicDrop">
+                                            <div class="user-form">
+                                                <h4 style="text-align: left; font-size: 16px;">
+                                                    基本信息
+                                                </h4>
+                                                <div class="well" style="height:170px;overflow-y:auto;">
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    客户编号
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="客户编号" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    客户类型
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="客户类型" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    手机号码
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="手机号码" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    电话号码
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="电话号码" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    联系地址
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="联系地址" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    从事职业
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="从事职业" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    专属顾问
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="专属顾问" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    专属美疗师
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="专属美疗师"
+                                                                       data-name="name" disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    入会日期
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="入会日期" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    所属月份
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="所属月份" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    生日
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="生日" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    介绍人
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="介绍人" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="userAccountDrop">
+                                            <div class="user-form">
+                                                <h4 style="text-align: left; font-size: 16px;">
+                                                    账户信息
+                                                </h4>
+                                                <div class="well" style="height:170px;overflow-y:auto;">
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    最后消费时间
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="最后消费时间" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    储值余额
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="储值余额" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    赠金余额
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="赠金余额" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    剩余积分
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="剩余积分" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    欠款
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="欠款" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="userOtherDrop">
+                                            <div class="user-form">
+                                                <h4 style="text-align:left;font-size:16px;">
+                                                    其他信息
+                                                </h4>
+                                                <div class="well" style="height:170px;overflow-y:auto;">
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    婚否
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="婚否" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    血型
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="血型" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    生肖
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="生肖" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    星座
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="星座" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    身高
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="身高" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    体重
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="体重" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    胸围
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="胸围" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="name">
+                                                                    腰围
+                                                                </label>
+                                                                <input type="text" class="form-control" id="name" placeholder="腰围" data-name="name"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                <label for="no">
+                                                                    臀围
+                                                                </label>
+                                                                <input type="text" class="form-control" id="no" placeholder="臀围" data-name="no"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </nav>
+                    </div>
+                    <div class="panel-body" id="left-body">
+                        <table class="table table-bordered fixed" id="left-table-header">
+                            <thead>
+                                <tr>
+                                    <th data-column="class">
+                                        类型
+                                    </th>
+                                    <th data-column="number">
+                                        数量
+                                    </th>
+                                    <th data-column="price">
+                                        单价
+                                    </th>
+                                    <th data-column="totalamount">
+                                        总金额
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div id="left-table-div">
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="btn-group" role="group" aria-label="..." style="width:100%;">
+                            <div class="dropup" id="btn_guadan">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="btn_guadan_dropdown"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="Cart.guadan(this)">
+                                    <span class="glyphicon glyphicon-list-alt">
+                                    </span>
+                                    &nbsp;挂单
+                                    <span class="caret hidden">
+                                    </span>
+                                    <span class="badge">
+                                        0
+                                    </span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="btn_guadan_dropdown"
+                                    style="width:100%"></ul>
+                            </div>
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#settlementModal" id="btn_settlement" onclick="Settlement.openWin(this)">
+                                <span class="glyphicon glyphicon-search">
+                                </span>
+                                &nbsp;结算
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-7 main-right">
+                <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#pp_tab" aria-controls="pp_tab" role="tab" data-toggle="tab">
+                            项目/产品
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#cp_tab" aria-controls="cp_tab" role="tab" data-toggle="tab">
+                            疗程/促销
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="pp_tab">
+                        <form class="pp_form">
+                            <div class="form-group">
+                                <div class="input-group header-operation">
+                                    <input type="text" class="form-control" placeholder="名称/编号">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" onclick="pp_query(this)">
+                                            <span class="glyphicon glyphicon-search">
+                                            </span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    热门关键词：
+                                </label>
+                                <span class="label label-danger">
+                                    针灸
+                                </span>
+                                <span class="label label-danger">
+                                    火罐
+                                </span>
+                                <span class="label label-danger">
+                                    理疗
+                                </span>
+                                <span class="label label-danger">
+                                    按摩
+                                </span>
+                            </div>
+                            <div class="form-group" id="pp_item_main">
+                                <div class="row pp_item_container">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="cp_tab">
+                        <form class="cp_form">
+                            <div class="form-group">
+                                <div class="input-group header-operation">
+                                    <input type="text" class="form-control" placeholder="名称/编号">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" onclick="cp_query(this)">
+                                            <span class="glyphicon glyphicon-search">
+                                            </span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    热门关键词：
+                                </label>
+                                <span class="label label-danger">
+                                    针灸
+                                </span>
+                                <span class="label label-danger">
+                                    火罐
+                                </span>
+                                <span class="label label-danger">
+                                    理疗
+                                </span>
+                                <span class="label label-danger">
+                                    按摩
+                                </span>
+                            </div>
+                            <div class="form-group" id="cp_item_main">
+                                <div class="row cp_item_container">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--项目/产品Item-->
+    <div class="pp_item_clone pp_item  col-xs-6">
+        <div class="panel panel-default ">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span data-name="no">
+                        编号
+                    </span>
+                    <span class="pp_item_type label label-danger" data-name="type_name">
+                        类型
+                    </span>
+                </h3>
+            </div>
+            <table class="table fixed">
+                <tr>
+                    <td rowspan="2" colspan="2">
+                        <img src="images/default_goods.png" />
+                    </td>
+                    <td class="pp_item_name" colspan="4" data-name="name">
+                        名称
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pp_item_price" colspan="2">
+                        <span>
+                            ￥
+                        </span>
+                        <span data-name="price" data-format="formatprice">
+                            00.00
+                        </span>
+                    </td>
+                    <td class="pp_item_stock" colspan="2">
+                        <span data-name="stock">
+                            **
+                        </span>
+                        <span>
+                            可售
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pp_item_cart" colspan="3">
+                        <button type="button" class="btn btn-danger" onclick="Cart.shoppingCart(this, OPERATION.CONSUMPTION, MODULAR.PROJECTPRODUCTS)">
+                            <span class="glyphicon glyphicon-shopping-cart">
+                            </span>
+                            &nbsp;&nbsp;加入购物车
+                        </button>
+                    </td>
+                    <td class="pp_item_order" colspan="3">
+                        <button type="button" class="btn btn-warning" onclick="Cart.shoppingCart(this, OPERATION.RESERVE, MODULAR.PROJECTPRODUCTS)">
+                            <span class="glyphicon glyphicon-copy" style="font-size:16px;">
+                            </span>
+                            &nbsp;&nbsp;加入预订单
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--疗程/促销Item-->
+    <div class="cp_item_clone cp_item  col-xs-6">
+        <div class="panel panel-default ">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <div class="dropdown" style="float:left;" data-name="details" data-format="formatcpdetails">
+                        <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="true" style="padding:0 5px 0 0;margin-top:-3px;">
+                            <span class="glyphicon glyphicon-th-list">
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu"></ul>
+                    </div>
+                    <span data-name="no">
+                        编号
+                    </span>
+                    <div class="countdown">
+                        <span class="glyphicon glyphicon-time">
+                        </span>
+                        <span data-name="countdown" data-format="formatcountdown">
+                            00天00时00分00秒
+                        </span>
+                    </div>
+                    <span class="cp_item_type label label-danger" data-name="type_name">
+                        类型
+                    </span>
+                </h3>
+            </div>
+            <table class="table fixed">
+                <tr>
+                    <td rowspan="2" colspan="4">
+                        <img src="images/default_goods.png" />
+                    </td>
+                    <td class="cp_item_name" colspan="6" data-name="name">
+                        名称
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp_item_frequency" colspan="2">
+                        <span data-name="frequency">
+                            0
+                        </span>
+                        <span>
+                            次
+                        </span>
+                    </td>
+                    <td class="cp_item_price" colspan="2">
+                        <span>
+                            ￥
+                        </span>
+                        <span data-name="price">
+                            00.00
+                        </span>
+                    </td>
+                    <td class="cp_item_stock" colspan="2">
+                        <span data-name="stock">
+                            **
+                        </span>
+                        <span>
+                            可售
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cp_item_cart" colspan="5">
+                        <button type="button" class="btn btn-danger" onclick="Cart.shoppingCart(this, OPERATION.CONSUMPTION, MODULAR.COURSEPROMOTION)">
+                            <span class="glyphicon glyphicon-shopping-cart">
+                            </span>
+                            &nbsp;&nbsp;加入购物车
+                        </button>
+                    </td>
+                    <td class="cp_item_order" colspan="5">
+                        <button type="button" class="btn btn-warning" onclick="Cart.shoppingCart(this, OPERATION.RESERVE, MODULAR.COURSEPROMOTION)">
+                            <span class=" glyphicon glyphicon-copy" style="font-size:16px;">
+                            </span>
+                            &nbsp;&nbsp;加入预订单
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--购物车Item-->
+    <div class="cart_item_clone cart_item">
+        <table class="fixed">
+            <tr>
+                <td rowspan="2" data-name="class" data-column="class" data-format="formatclass">
+                    类型
+                </td>
+                <td colspan="2" data-name="name">
+                    名称
+                </td>
+                <td>
+                    <a class="btn btn-link remove_cart" onclick="Cart.removeCart(this)">
+                        <span class="glyphicon glyphicon-trash">
+                        </span>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="cart_item_number" data-column="number">
+                    <a class="btn btn-link" onclick="Cart.numberChange(CALCULATION.MINUS,this)">
+                        <span class="glyphicon glyphicon-minus">
+                        </span>
+                    </a>
+                    <span class="number" data-name="number">
+                        0
+                    </span>
+                    <a class="btn btn-link" onclick="Cart.numberChange(CALCULATION.PLUS, this)">
+                        <span class="glyphicon glyphicon-plus">
+                        </span>
+                    </a>
+                </td>
+                <td data-column="price">
+                    <span>
+                        ￥
+                    </span>
+                    <span data-name="price" data-format="formatprice">
+                        00.00
+                    </span>
+                </td>
+                <td data-column="totalamount">
+                    <span>
+                        ￥
+                    </span>
+                    <span data-name="totalamount" data-format="formatprice">
+                        00.00
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!--提示框-->
+    <!--<div class="modal fade bs-example-modal-sm index-top" id="remindModal" tabindex="-1"
+         role="dialog" aria-labelledby="remindModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="remindModalLabel">
+                        <span class="glyphicon glyphicon-warning-sign" style="color: #337ab7;">
+                            &nbsp;提示
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--挂单Item-->
+    <ul class="guadan_item_clone guadan_item">
+        <li role="presentation" class="guadan_item">
+            <a role="menuitem" tabindex="-1" href="#" onclick="Cart.guadanChange(this)">
+                <table class="table table-condensed fixed">
+                    <tr>
+                        <td class="glyphicon glyphicon-shopping-cart">
+                            <span class="badge" data-name="totalnumber">
+                                1
+                            </span>
+                        </td>
+                        <td data-name="name">
+                            **
+                        </td>
+                        <td>
+                            <span data-name="datetime">
+                                hh:mm
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </a>
+        </li>
+        <li role="separator" class="divider">
+        </li>
+    </ul>
+    <!--预约Modal-->
+    <div class="modal fade  bs-example-modal-lg" id="reserveModal" tabindex="-1"
+         role="dialog" aria-labelledby="reserveModalLabel" data-entity="reservation" data-entity-control="modal">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <div class="modal-title" id="reserveModalLabel" style="text-align:center;">
+                        <div style="float:left;">
+                            <button class="btn btn-link" style="color: #337ab7;padding:0;margin:0;font-size:16px;"
+                                    onclick="Reservation.dateChange(this)">
+                                <span class="glyphicon glyphicon-calendar">
+                                </span>
+                            </button>
+                            <input readonly="readonly" style="border:none;background:none;border-radius:0;box-shadow:none;font-size:14px;width:90px;cursor:pointer;"
+                                   id="datetimepicker" data-date-format="yyyy-mm-dd" type="text" data-entity="reservation" data-entity-control-name="datetimepicker">
+                        </div>
+                        <span style="font-size:16px;font-weight:700; margin-left:-100px;">
+                            预约
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body" id="reserve-modal-body" data-entity="reservation" data-entity-control="content">
+                    <!--预约按钮-->
+                    <div class="reserve_btn_div" data-entity="reservationdate" data-entity-control-name="modalButton">
+                        <button class="btn btn-default"
+                                onclick="Room.openWin(this)">
+                            预约
+                        </button>
+                    </div>
+                    <table class="table table-bordered" id="reserve_top_table" style="border:none;">
+                        <thead>
+                            <tr data-entity="reservationdate" data-entity-control="list">
+                                <td style="border-bottom-width:0;">
+                                    <div class="out">
+                                        <b>
+                                            人员
+                                        </b>
+                                        <em>
+                                            时间
+                                        </em>
+                                    </div>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="panel-group" id="reserve_accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="reserve_headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#reserve_accordion"
+                                       href="#reserve_collapseOne" aria-expanded="true" aria-controls="reserve_collapseOne">
+                                        工作人员
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="reserve_collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                 aria-labelledby="reserve_headingOne">
+                                <div class="panel-body">
+                                    <table class="table table-bordered" id="reserve_one_table">
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="reserve_headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#reserve_accordion"
+                                       href="#reserve_collapseTwo" aria-expanded="false" aria-controls="reserve_collapseTwo">
+                                        已预约（未指定人）
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="reserve_collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="reserve_headingTwo">
+                                <div class="panel-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard
+                                    dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
+                                    moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                                    assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+                                    wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+                                    vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                                    synth nesciunt you probably haven't heard of them accusamus labore sustainable
+                                    VHS.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--预约表单-->
+    <div class="modal fade bs-example-modal-lg" id="reservetbModal" tabindex="-1"
+         role="dialog" aria-labelledby="reservetbModalLabel" data-entity="reservationSelect" data-entity-control="modal">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <div class="modal-title" id="reservetbModalLabel" data-entity="reservationSelect" data-entity-control="title" style="text-align:center;">
+                        <div style="float:left;">
+                            <span class="glyphicon glyphicon-calendar">
+                            </span>
+                            <span data-date-format="yyyy-MM-dd" data-format="formatdate" data-name="date"></span>
+                        </div>
+                        <span style="font-size: 16px; font-weight: 700; margin-left: -100px;">
+                            预约(<i data-name="room" data-format="formatentity" style="color: #337ab7;"></i>&nbsp;&nbsp;<i data-date-format="hh:mm" data-format="formatdate" data-name="sDate" style="color: #337ab7;"></i><i style="color: #337ab7;">-</i><i data-date-format="hh:mm" data-format="formatdate" data-name="eDate" style="color: #337ab7;"></i>)
+                        </span>
+
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <table class="table table-bordered fixed reservetb_list_thead" data-entity="reservationItem" data-entity-control="thead">
+                                <thead>
+                                    <tr>
+                                        <th data-column="no" style="width:100px;">
+                                            编号
+                                        </th>
+                                        <th data-column="name">
+                                            名称
+                                        </th>
+                                        <th data-column="price" style="width:80px;">
+                                            单价
+                                        </th>
+                                        <th data-column="operation" style="width:60px;">
+                                            操作
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div class="reservetb_list_div" data-entity="reservationSelect" data-entity-control="content">
+                                <table class="table table-bordered fixed reservetb_list_tbody" data-entity="reservationItem" data-entity-control="tbody">
+                                    <tbody data-entity="reservationItem" data-entity-control="list"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="name">
+                                        已选项目
+                                    </label>
+                                    <div class="well well-lg reservetb_list_well" data-entity="reservationSelect" data-entity-control="content">
+                                        <div class="panel-group" id="accordion_reserve_list" role="tablist" aria-multiselectable="true" data-entity="existingProject" data-entity-control="list">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="ReservationSelect.save(this)">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--预约项目Item-->
+    <div class="panel panel-default" data-entity="existingProject" data-entity-control="template">
+        <div class="panel-heading" role="tab" id="reserve_xm_item_heading">
+            <div class="panel-title" style="font-size:14px;">
+                <div class="row">
+                    <div class="col-xs-10 nowrap">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion_reserve_list" href="#reserve_xm_item_collapse" aria-expanded="false" aria-controls="reserve_xm_item_collapse"
+                           data-name="name" class="nowrap">
+                            ****
+                        </a>
+                    </div>
+                    <div class="col-xs-2">
+                        <a class="btn btn-link" onclick="ExistingProject.remove(this)" style="padding:2px 5px;float:right;font-size:14px;">
+                            <span class="glyphicon glyphicon-trash">
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="reserve_xm_item_collapse" class="panel-collapse collapse"
+             role="tabpanel" aria-labelledby="reserve_xm_item_heading">
+            <ul class="list-group" data-entity="speplg" data-entity-control="list" data-name="servicePersonals" data-format-entity="speplg" data-format="formatentity" style="border-top:none;"></ul>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-xs-10 nowrap">
+                        <span>服务人员</span>
+                        <span class="badge" data-calculation-default="0" data-format="formatcalculation" data-calculation-operation="count" data-calculation-name="servicePersonals">0</span>
+                    </div>
+                    <div class="col-xs-2">
+                        <a class="btn btn-link" onclick="ServicePersonal.openWin(this)" style="padding: 2px 5px; float: right; font-size: 14px;">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--预约已有项目人员选择Item-->
+    <ul>
+        <li class="list-group-item" data-entity="speplg" data-entity-control="template">
+            <div class="row" style="text-align:center;">
+                <div class="col-xs-4">
+                    <span data-entity="speplg" data-name="sex" data-format="formatsex"></span>
+                    <span data-entity="speplg" data-name="no"></span>
+                </div>
+                <div class="col-xs-8">
+                    <span data-entity="speplg" data-name="name"></span>
+                </div>
+            </div>
+
+
+
+        </li>
+    </ul>
+    <!--预约项目集合Item-->
+    <table class="reserve_xm_list_item_clone reserve_xm_list_item">
+        <tr data-entity="reservationItem" data-entity-control="template">
+
+            <td data-name="no" data-column="no">
+                **
+            </td>
+            <td class="nowrap" data-name="name" data-column="name">
+                ****
+            </td>
+            <td data-name="price" data-column="price" data-format="formatprice">
+                0
+            </td>
+            <td data-column="operation">
+                <a class="glyphicon glyphicon-edit btn btn-link" style="padding: 0; border:none;"
+                   onclick="ReservationItem.addExistingProject(this)">
+                </a>
+            </td>
+        </tr>
+    </table>
+    <!--客户Item-->
+    <ul class="customer_item_clone customer_item">
+        <li role="presentation" class="customer_item">
+            <a role="menuitem" tabindex="-1" href="#" onclick="Customer.customerChange(this)">
+                <div class="row">
+                    <div class="col-xs-1" data-name="sex" data-format="formatsex">
+                    </div>
+                    <div class="col-xs-4" data-name="no">
+                    </div>
+                    <div class="col-xs-3" data-name="name">
+                    </div>
+                    <div class="col-xs-4" data-name="tel">
+                    </div>
+                </div>
+                <!--<table class="table table-condensed fixed">
+                <tr>
+                <td data-name="sex" data-format="formatsex">♂♀</td>
+                <td data-name="no">**</td>
+                <td data-name="name">**</td>
+                <td data-name="tel">**</td>
+                </tr>
+                </table>-->
+            </a>
+        </li>
+        <li role="separator" class="divider">
+        </li>
+    </ul>
+    <!--结算清单-->
+    <div class="modal fade bs-example-modal-lg" id="settlementModal" tabindex="-1"
+         role="dialog" aria-labelledby="settlementModalLabel" data-entity="settlement" data-entity-control="modal">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="settlementModalLabel">
+                        <span class="glyphicon glyphicon-list-alt" style="color: #337ab7;">
+                            &nbsp;结算清单
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered fixed settlement_list_thead" data-entity="settlement" data-entity-control="thead">
+                        <thead>
+                            <tr>
+                                <th data-column="class">
+                                    类型
+                                </th>
+                                <th data-column="name">
+                                    名称
+                                </th>
+                                <th data-column="number">
+                                    数量
+                                </th>
+                                <th data-column="price">
+                                    单价
+                                </th>
+                                <th data-column="totalamount">
+                                    金额
+                                </th>
+                                <th data-column="service_personal">
+                                    服务人员
+                                </th>
+                                <th data-column="total" class="hidden">
+                                    合计
+                                </th>
+                                <th data-column="operation">
+                                    操作
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="settlement_list_div" style="overflow-x:hidden;overflow-y:auto;" data-entity="settlement" data-entity-control="content">
+                        <table class="table table-bordered fixed settlement_list_tbody" data-entity="settlement" data-entity-control="tbody">
+                            <tbody class="settlement_list" data-entity="settlement" data-entity-control="list"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="settlement_totalamount">
+                        <span>
+                            合计:
+                        </span>
+                        <span data-entity="settlement" data-entity-control-name="total">
+                        </span>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="Settlement.billing(this)">
+                        结算
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--结算清单Item-->
+    <table class="settlement_item_clone settlement_item">
+        <tr data-entity="settlement" data-entity-control="template">
+            <td data-name="class" data-column="class" data-format="formatclass"></td>
+            <td data-name="name" data-column="name"></td>
+            <td class="settlement_item_number" data-column="number">
+                <a class="btn btn-link btn-minus" onclick="Settlement.numberChange(this)">
+                    <span class="glyphicon glyphicon-minus">
+                    </span>
+                </a>
+                <span class="number" data-name="number">
+                    0
+                </span>
+                <a class="btn btn-link btn-plus" onclick="Settlement.numberChange(this)">
+                    <span class="glyphicon glyphicon-plus">
+                    </span>
+                </a>
+            </td>
+            <td data-name="price" data-column="price" data-format="formatprice"></td>
+            <td data-name="totalamount" data-column="totalamount" data-format="formatprice"></td>
+            <td data-column="service_personal">
+                <div style="width: 100%; height: 22px; overflow-y: auto; overflow-x:hidden; list-style: none;"
+                     class="service_personal_div">
+                    <a href="#" data-toggle="modal" data-target="#commissionPostModal" onclick="CommissionPost.openWin(this)"
+                       data-name="commissionPost" data-format="formatcommissionpost">
+                        <ul>
+                            <li data-entity="settlement" data-entity-control-name="notselect">
+                                未选择
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+            </td>
+            <td data-column="total" data-name="total" data-calculation-name="totalamount" data-calculation-operation="sum" data-calculation-default="0.00" data-format="formatcalculation" data-calculation-callback="setTotal" data-calculation-set="row" class="hidden">
+                合计
+            </td>
+            <td data-column="operation">
+                <a class="btn btn-link" style="padding:0px;" onclick="Settlement.removeTheItem(this)">
+                    <span class="glyphicon glyphicon-trash">
+                    </span>
+                </a>
+            </td>
+        </tr>
+    </table>
+    <!--提成岗位-->
+    <div class="modal fade bs-example-modal-lg" id="commissionPostModal"
+         tabindex="-1" role="dialog" aria-labelledby="commissionPostModalLabel" data-entity="commissionPost" data-entity-control="modal">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="commissionPostModalLabel">
+                        <span class="glyphicon glyphicon-stats" style="color: #337ab7;">
+                            &nbsp;提成岗位
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" data-entity="commissionPost" data-entity-control="list">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="CommissionPost.save(this)">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--提成岗位Item-->
+    <div class="col-xs-6" style="padding: 0px 2.5px 0 2.5px; margin: 0;" data-entity="commissionPost" data-entity-control="template">
+        <div class="panel panel-default" style="margin:0;">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span data-name="name"></span>
+                    <a class="btn btn-link btn-plus" style="float:right;margin-top:-7px;" onclick="ServicePersonal.openWin(this)">
+                        <span class="glyphicon glyphicon-plus">
+                        </span>
+                    </a>
+                </h3>
+            </div>
+            <div class="panel-body" data-entity="commissionPost" data-entity-control="content">
+                <canvas style="height:100%" data-name="servicePersonals" data-format="formatpie" />
+            </div>
+        </div>
+    </div>
+    <!--服务人员列表Item-->
+    <div class="modal fade" id="servicePersonalListModal" tabindex="-1" role="dialog"
+         aria-labelledby="servicePersonalListModalLabel" data-entity="servicePersonal" data-entity-control="modal">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="servicePersonalListModalLabel">
+                        <span class="glyphicon glyphicon-list-alt" style="color: #337ab7;">
+                            &nbsp;服务人员
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <div class="input-group header-operation">
+                                <input class="form-control" placeholder="姓名/工号" id="servicePersonalListQueryInput"
+                                       type="text" onkeyup="ServicePersonal.queryHandle(this)">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="ServicePersonal.queryHandle(this)">
+                                        <span class="glyphicon glyphicon-search">
+                                        </span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <table class="table table-bordered fixed servicePersonalListThead" data-entity="servicePersonal" data-entity-control="thead" style="margin:0;">
+                        <thead>
+                            <tr>
+                                <th data-column="check" style="width:40px;">
+                                    <input type="checkbox" class="hidden" />
+                                </th>
+                                <th data-column="sex">
+                                    性别
+                                </th>
+                                <th data-column="no">
+                                    工号
+                                </th>
+                                <th data-column="name">
+                                    姓名
+                                </th>
+                                <th data-column="gangwei">
+                                    所属岗位
+                                </th>
+                                <th data-column="isThis" style="text-align: center;">
+                                    本店
+                                </th>
+                                <th data-column="isNamed" style="text-align:center;">
+                                    指名
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="servicePersonalListDiv" data-entity="servicePersonal" data-entity-control="content" style="overflow-x:hidden;overflow-y:auto;" data-name="selectPersonal" data-format="formatselect">
+                        <table class="table table-bordered fixed servicePersonalListTbody" data-entity="servicePersonal" data-entity-control="tbody">
+                            <tbody class="servicePersonalList" data-entity="servicePersonal" data-entity-control="list"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="ServicePersonal.selectSave(this)">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--服务人员Item-->
+    <table class="servicePersonalItemClone servicePersonalItem">
+        <tr data-entity="servicePersonal" data-entity-control="template">
+            <td data-column="check" style="text-align:center;" data-entity="servicePersonal">
+                <input type="checkbox" data-entity-control="choice" />
+            </td>
+            <td data-name="sex" data-column="sex" data-format="formatsex"></td>
+            <td data-name="no" data-column="no"></td>
+            <td data-name="name" data-column="name"></td>
+            <td data-name="gangwei" data-column="gangwei"></td>
+            <td data-name="isThis" data-column="isThis" data-format="formatif" style="text-align:center;"></td>
+            <td data-column="isNamed" style="text-align:center;">
+                <a class="btn btn-link btn-plus" onclick="ServicePersonal.isNamedChange(this)"
+                   style="padding:0;">
+                    <span class="glyphicon glyphicon-remove" data-name="isNamed" data-format="formatisnamed">
+                    </span>
+                </a>
+            </td>
+        </tr>
+    </table>
+    <!--基本设置Modal-->
+    <div class="modal fade" id="allocationModal" tabindex="-1" role="dialog"
+         aria-labelledby="allocationModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="allocationModalLabel">
+                        <span class="glyphicon glyphicon-cog" style="color: #337ab7;">
+                            &nbsp;基本设置
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="theme" class="col-sm-2 control-label">
+                                系统主题
+                            </label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="theme" data-name="theme"></select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Allocation.formSave()">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--疗程/促销 明细-->
+    <ul class="cp_details_item_clone cp_details_item">
+        <li>
+            <a href="#">
+                <div class="row">
+                    <div class="col-xs-6">
+                        编号：
+                        <span data-name="bianhao">
+                        </span>
+                        （
+                        <span data-name="type" data-format="formatcpdetailstype">
+                        </span>
+                        ）
+                    </div>
+                    <div class="col-xs-6" style="text-align: right;">
+                        <span data-name="cishu">
+                        </span>
+                        次
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" data-name="name">
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li role="separator" class="divider">
+        </li>
+    </ul>
+    <!--已有疗程Item-->
+    <div class="panel panel-default ecot_item_clone ecot_item">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#ecot-accordion">
+                    <span data-name="name">
+                        ******
+                    </span>
+                    <span style="float: right; color: #337ab7;font-size:14px;">
+                        有效时间：
+                        <span data-name="termOfValidity" data-format="formatshortdate">
+                            yyyy-MM-dd
+                        </span>
+                    </span>
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse">
+            <div style="height:122px; overflow-y:auto;" data-entity="ecotdetails"
+                 data-entity-control="list" data-name="details" data-format="formatecotdetails">
+            </div>
+        </div>
+    </div>
+    <!--已有疗程项目/产品Item-->
+    <table class="table  table-condensed fixed table-bordered-none " data-entity="ecotdetails"
+           data-entity-control="template" style="border-bottom:1px solid #ddd;margin-bottom:0">
+        <tr>
+            <td colspan="3">
+                编号：
+                <span data-name="bianhao">
+                </span>
+                （
+                <span data-name="type" data-format="formatcpdetailstype">
+                </span>
+                ）
+            </td>
+            <td>
+                <span data-name="specificNumber">
+                </span>
+                /
+                <span data-name="Number">
+                </span>
+                次
+            </td>
+            <td rowspan="2" style="line-height:50px;text-align:center;">
+                <a class="btn btn-link" href="#" onclick="Cart.shoppingCart(this, OPERATION.USE, MODULAR.HAVECOURSE)">
+                    使用
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" data-name="name" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"></td>
+        </tr>
+    </table>
+    <!--房间Modal-->
+    <div class="modal fade" id="roomModal" tabindex="-1" role="dialog"
+         aria-labelledby="roomModalLabel" data-entity="room" data-entity-control="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="roomModalLabel">
+                        <span class="glyphicon glyphicon-home" style="color: #337ab7;">
+                            &nbsp;房间
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body" data-entity="room" data-entity-control="content">
+                    <div class="row" data-entity="room" data-entity-control="list">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Room.selectSave(this)">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 房间Item -->
+    <div class="col-xs-2" data-entity="room" data-entity-control="template">
+        <span class="label label-primary" data-name="name" onclick="Room.select(this)" style="cursor:pointer;"></span>
+    </div>
+    <!-- 预约时间Item -->
+    <table>
+        <tr>
+            <td data-entity="reservationdate" data-entity-control="template" class="reserve_td" style="border-bottom-width:0" onclick="ReservationDate.select(this)">
+                <span data-name="timeInterval" data-format="formatdate" data-date-format="hh:mm"></span>
+            </td>
+        </tr>
+    </table>
+    <!--开单Modal-->
+    <div class="modal fade" id="billingModal" tabindex="-1" role="dialog"
+         aria-labelledby="billingModalLabel" data-entity="billing" data-entity-control="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="billingModalLabel">
+                        <span class="glyphicon glyphicon-edit" style="color: #337ab7;">
+                            &nbsp;开单
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body" data-entity="billing" data-entity-control="content">
+                    <form class="form-horizontal" role="form" data-entity="billing" data-entity-control="form">
+                        <div class="col-sm-4">
+                            <div class="form-group" style="width:100%">
+                                <label for="yingshouje">应收金额：</label>
+                                <input type="text" class="form-control" name="yingshouje" data-name="yingshouje" placeholder="应收金额" data-format="formatprice" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="width:100%">
+                                <label for="yishoujine">已收金额：</label>
+                                <input type="text" class="form-control" name="yishoujine" data-name="yishoujine" placeholder="已收金额" data-format="formatprice" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="width:100%">
+                                <label for="qiankuan">欠收金额：</label>
+                                <input type="text" class="form-control" name="qiankuan" data-name="qiankuan" placeholder="欠收金额" data-format="formatprice" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="width:100%">
+                                <label for="shuaka">刷卡：</label>
+                                <input type="text" data-format="formatprice" class="form-control" name="shuaka" data-name="shuaka" placeholder="刷卡">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="width:100%">
+                                <label for="xianjin">现金：</label>
+                                <input type="text" data-format="formatprice" class="form-control" name="xianjin" data-name="xianjin" placeholder="现金">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="width:100%">
+                                <label for=" kouchuzhi">扣储值：</label>
+                                <input type="text" data-format="formatprice" class="form-control" name="kouchuzhi" data-name="kouchuzhi" placeholder="扣储值">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="width:100%">
+                                <label for="koudj">扣订金：</label>
+                                <input type="text" data-format="formatprice" class="form-control" name="koudj" data-name="koudj" placeholder="扣订金">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="width:100%">
+                                <label for="koukaje">扣卡金：</label>
+                                <input type="text" data-format="formatprice" class="form-control" name="koukaje" data-name="koukaje" placeholder="扣卡金额">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="width:100%">
+                                <label for="kouzj">扣赠金：</label>
+                                <input type="text" data-format="formatprice" class="form-control" name="kouzj" data-name="kouzj" placeholder="扣赠金">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="Billing.submit(this)">
+                        开单
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--打印凭条-->
+    <div data-entity="tickertape" data-entity-control="content">
+        <form data-entity="tickertape" data-entity-control="form" style="width:100%">
+            <table style="width: 100%; word-spacing: 16px; letter-spacing: 1px; line-height:35px;">
+                <thead>
+                    <tr>
+                        <th colspan="6" data-name="mendian"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ><td>收银编号：</td>
+                    <td data-name="no" colspan="5"></td></tr>
+                    <tr>
+                        <td>消费顾客：</td>
+                        <td data-name="customerName"></td>
+                        <td>顾客等级：</td>
+                        <td data-name="huiyuandj"></td>
+                        <td>美容顾问：</td>
+                        <td data-name="zsgw"></td>
+                    </tr>
+                    <tr>
+                        <td>收银员：</td>
+                        <td data-name="shouyinyuan"></td>
+                        <td>收银日期：</td>
+                        <td data-name="shouyinshijian" colspan="2" data-format="formatdate" data-date-format="yyyy-MM-dd hh:mm"></td>
+                    </tr>
+                  <tr>
+                      <td colspan="6">
+                          <div style="height:380px;padding-top:10px;">
+                              <table border="1" style="table-layout:fixed; width:100%; text-align:center;">
+                                  <thead>
+                                      <tr>
+                                          <td style="background-color:#ccc;">消费类型</td>
+                                          <td style="background-color:#ccc;">名称</td>
+                                          <td style="background-color:#ccc;">编码</td>
+                                          <td style="background-color:#ccc;">数量</td>
+                                          <td style="background-color:#ccc;">有效日期</td>
+                                      </tr>
+                                  </thead>
+                                  <tbody data-entity="tickertapeDetails" data-entity-control="list"></tbody>
+                              </table>
+                          </div>
+                      </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">美丽热线：0756-8289090&nbsp;0756-8289098</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">打印时间：<span data-name="printDate" data-format="formatdate" data-date-format="yyyy-MM-dd hh:mm"></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">满意度评分：<input type="checkbox">很好&nbsp;<input type="checkbox">好&nbsp;<input type="checkbox">一般&nbsp;<input type="checkbox">差</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"><span style="float: left;">确认已带齐随身物品&nbsp;&nbsp;顾客签名</span><hr style="width:100px;float:left; border-color:#000;" /></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <!--打印凭条详情-->
+    <table>
+        <tr data-entity="tickertapeDetails" data-entity-control="template">
+            <td data-entity="tickertapeDetails" data-name="class" data-format="formatclass"></td>
+            <td data-entity="tickertapeDetails" data-name="name"></td>
+            <td data-entity="tickertapeDetails" data-name="no"></td>
+            <td data-entity="tickertapeDetails" data-name="number"></td>
+            <td data-entity="tickertapeDetails" data-name="youxiaoriqi" data-format="formatdate" data-date-format="yyyy-MM-dd"></td>
+
+        </tr>
+    </table>
+    
+</body>
+</html>
