@@ -21,6 +21,21 @@
 
         .fixed {
             table-layout: fixed;
+            position: relative;
+        }
+
+        .type_sign {
+            font-size: .9em;
+            display: inline-block;
+            position: absolute;
+            height: 30px;
+            width: 30px;
+            background: red;
+            color: #ffffff;
+            opacity: .6;
+            border-bottom-right-radius: 30px;
+            text-align: left;
+            line-height: 30px;
         }
 
         .crossout {
@@ -396,7 +411,7 @@
             }
 
         .isSelect {
-            background-color: #ddd;
+            background-color: #4CAF50;
         }
 
         .reserve_td {
@@ -404,10 +419,10 @@
         }
 
             .reserve_td:hover {
-                background-color: #ddd;
+                background-color: #4CAF50;
             }
 
-        .reserve_btn_div {
+        .reserve_btn_div,.checkin_btn_div {
             position: absolute;
             text-align: center;
             display: none;
@@ -516,6 +531,62 @@
         .table-bordered-bottom {
             border-bottom: 1px solid #ddd;
         }
+        /*预约实体样式*/
+        .reserve_item {
+            padding: 10px 15px;
+        }
+        .reserve_item label {
+            display: inline-block;
+            width: 20%;
+            text-align: center;
+        }
+        .reserve_item .reserve_item_content {
+            display: inline-block;
+            width: 60%;
+        }
+        tbody.reserve-tb td {
+            text-align: center;
+            cursor: pointer;
+        }
+        tbody.reserve-tb td span {
+            display: inline-block;
+            height:100%;
+            width: 100%;
+            color: rgba(0,0,0,0);
+        }
+        tbody.reserve-tb tr:hover {
+            background: #dca7a7;
+        }
+        .reserve-item {
+            display: inline-block;
+            width: 40%;
+            text-align: center;
+            border: none;
+            background: #dca7a7;
+            margin-left: 20px;
+        }
+        .checkin-item {
+            margin-bottom: 30px;
+        }
+        .checkin-item-label {
+            display: inline-block;
+            width: 20%;
+            text-align: right;
+        }
+        .checkin-item-content {
+            margin-left: 20px;
+            display: inline-block;
+            width: 70%;
+        }
+        .checkin-item-content .btn-default,.checkin-item-content .form-control {
+            display: inline-block;
+            text-align: center;
+            width: 30%;
+        }
+        .checkin-item-content .form-control:nth-child(2) {
+            width: 60%;
+            margin-left: 10px;
+        }
     </style>
     <script src="js/jquery-1.9.1.min.js">
     </script>
@@ -556,6 +627,10 @@
                     init_cp();
                 } else Page.goLogin();
             });
+
+            //数据测试
+            var id = 11;
+
             //项目产品搜索点击事件
             function pp_query(e) {
                 var val = $(e).parent().prev().val();
@@ -913,7 +988,6 @@
                         },
                         change: function () {
                             Customer.refresh(1, $(this).val());
-
                         }
                     });
 
@@ -930,7 +1004,6 @@
                         if (!Customer.container().hasClass("open")) {
                             Customer.input().addClass("isOpen");
                             Customer.input().click();
-
                         }
                         Customer.refresh(1, Customer.input().val());
                     });
@@ -1258,11 +1331,27 @@
 
                 },
                 layout_table: function () {
-                    $this = this;
+                    var $this = this;
                     layout_table($this.head(), $this.div());
                 }
 
             };
+
+            //会员充值
+//            var Vipcharge = $entity.getEntity({
+//                name:"vipcharge"
+//            });
+
+//            //客户实体
+//            var Customer = $entity.getEntity({
+//                name:"customer"
+//            });
+
+            //购物车实体
+//            var Cart = $entity.getEntity({
+//
+//            });
+
             //结算实体
             var Settlement = $entity.getEntity({
                 name: "settlement",
@@ -1352,7 +1441,7 @@
                         koudj: 0.00,
                         koukaje: 0.00,
                         kouzj: 0.00
-                    }
+                    };
                     this.setResponseData(_data);
                 },
 
@@ -1650,13 +1739,63 @@
                         return false;
                     }
                     var tDate = ReservationDate.modalButton().getData();
-                    ReservationSelect.openWin($.extend(true, {}, { room: rDate }, tDate));
+                    $(".reserve-item.data-room").val(rDate);
+//                    ReservationSelect.openWin($.extend(true, {}, { room: rDate }, tDate));//待改
                 },
                 openWin: function (e) {
                     this.init();
                 }
-
             });
+
+            //预约表实体
+            var ReservationForm = $entity.getEntity({
+                name: "reservationform",
+                openWinCallback: function(e) {
+                    $("#start").val($(".isClick:first").text());
+                    $("#end").val($(".isClick:last").text());
+                    console.log($(".isClick:first").siblings("td[data-name]"));
+                    if ($(".isClick:first").siblings("td[data-name]").length > 0) {
+                        $(".reserve-item.data-employee").val($(".isClick:first").siblings("td[data-name]").children("span").text()).show();
+                    }
+                },
+                selectSave: function(e) {
+                    var click_f = $(".isClick:first");
+                    var click_l = $(".isClick:last");
+                    var f_l = click_f.get(0).offsetLeft;
+                    var l_l = click_l.get(0).offsetLeft;
+                    var f_t = parseInt(click_f.get(0).offsetHeight * click_f.parents("tr").attr("data-index"));
+                    var tooltipMsg = "人员：" + $(".isClick:first").siblings("td[data-name]").children("span").text() + "; " + "项目：身体按摩;";
+                    var appendBtn = '<div class="checkin_btn_div" id="_' + id + '" data-toggle="tooltip" data-placement="top" title="' + tooltipMsg + '"><button class="btn btn-info" onclick="CheckIn.openWin(this)" style="background: transparent;border: none; letter-spacing: .2em; font-size: 1.1em;">签到</button></div>';
+                    $("#reserve_top_table").before(appendBtn);
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $("#_" + id).css({
+                        top: f_t,
+                        left: f_l + "px",
+                        width: (l_l - f_l) + click_f.outerWidth(true) + "px",
+                        height: click_f.outerHeight(true) + "px",
+                        background: "#F44336"
+                    }).show();
+                    $("#_" + id).fillData({ "date": click_f.getData("timeinterval"), "sDate": click_f.getData("timeinterval"), "eDate": click_l.getData("timeinterval") });
+                    id += 1;
+                    if ($(".isSelect").hasClass("isClick")) {
+                        $(".isSelect").removeClass("isClick");
+                    }
+                    $(".isSelect").css("background","#F44336").removeClass("isSelect");
+                    ReservationDate.getControl('modalButton').hide();
+                }
+            });
+
+            //签到实体
+            var CheckIn = $entity.getEntity({
+                name: "checkin",
+                selectSave: function(e) {
+                    $("#_" + (id - 1)).css({
+                        background: "#FFC107"
+                    });
+                    $("#_" + (id - 1) + " .btn").prop("disabled",true).text("已签到");
+                }
+            });
+
             //预约实体
             var Reservation = $entity.getEntity({
                 name: "reservation",
@@ -1674,6 +1813,8 @@
                         startView: 2,
                         minView: 2
                     }).val(new Date().Format("yyyy-MM-dd"));
+                    //静态测试数据
+
                 },
                 openWin: function (e) {
                     this.init();
@@ -1708,7 +1849,7 @@
                 },
                 select: function (e) {
                     if ($(e).parent().find(".isClick").length == 2) $(e).siblings().removeClass("isClick").removeClass("isSelect");
-                    if ($(e).hasClass("isClick")) $(e).removeClass("isClick");
+                    if ($(e).hasClass("isClick isSelect")) $(e).removeClass("isClick isSelect");
                     else {
                         $(e).addClass("isClick isSelect");
                     }
@@ -1716,14 +1857,20 @@
                     var click_l = $(".isClick:last");
                     var f_i = parseInt(click_f.getData("index"));
                     var l_i = parseInt(click_l.getData("index"));
+                    if (click_f.parents('tr').attr("data-index") !== click_l.parents('tr').attr("data-index")) {
+                        $(".isClick").removeClass("isClick");
+                        $(".isSelect").removeClass("isSelect");
+                    } else {
+                        this.modalButton().hide()
+                    }
 
-                    if (f_i != l_i) {
-                        $("td:gt(" + f_i + "):lt(" + (l_i - f_i + 1) + ")", this.getList()).addClass("isSelect");
+                    if (f_i != l_i && click_f.parents('tr').attr("data-index") === click_l.parents('tr').attr("data-index")) {
+                        $("td:gt(" + f_i + "):lt(" + (l_i - f_i + 1) + ")", $(e).parents("tr")).addClass("isSelect");
                         var f_l = click_f.get(0).offsetLeft;
                         var l_l = click_l.get(0).offsetLeft;
-
+                        var f_t = parseInt(click_f.get(0).offsetHeight * click_f.parents("tr").attr("data-index"));
                         this.modalButton().css({
-                            top: "1px",
+                            top: f_t,
                             left: ((l_l - f_l) / 2 + f_l) - 1 + "px"
                         }).show();
                         this.modalButton().fillData({ "date": click_f.getData("timeinterval"), "sDate": click_f.getData("timeinterval"), "eDate": click_l.getData("timeinterval") });
@@ -1756,7 +1903,6 @@
                         sDate: _tdata.sDate,
                         eDate: _tdata.eDate,
                         room: _tdata.room.id,
-                        room: _tdata.room.id,
                         projects: _edata
                     }
                  
@@ -1772,7 +1918,7 @@
                     }
                 }
                 , addExistingProject: function (e) {
-                    var _item = this.getTheItem(e)
+                    var _item = this.getTheItem(e);
                     var _data = _item.getData();
                     ExistingProject.add(_data);
                 }
@@ -1828,7 +1974,8 @@
                     });
                 }
 
-            }
+            };
+
             var Theme = {
                 data: null,
                 theme: "默认",
@@ -1858,7 +2005,7 @@
                     theme = theme == null ? $this.theme : theme;
                     $this.link().attr("href", "bootstrap/theme/" + theme + "/bootstrap-theme.min.css");
                 }
-            }
+            };
 
             var Allocation = {
                 allocation: null,
@@ -1997,294 +2144,7 @@
                     _sData.commissionPost = this.getData();
                     Settlement.setData(_sData);
                 }
-
             });
-            //var ServicePersonal = {
-            //    modal: function() {
-            //        return $("#servicePersonalModal");
-            //    },
-            //    listModal: function() {
-            //        return $("#servicePersonalListModal");
-            //    },
-            //    listDiv: function() {
-            //        return $(".servicePersonalListDiv", this.listModal());
-            //    },
-            //    listThead: function() {
-            //        return $(".servicePersonalListThead", this.listModal())
-            //    },
-            //    listTbody: function() {
-            //        return $(".servicePersonalListTbody", this.listModal())
-            //    },
-            //    listTemplate: function() {
-            //        return $(".servicePersonalItemClone")
-            //    },
-            //    list: function() {
-            //        return $(".servicePersonalList", this.listModal())
-            //    },
-            //    div: function() {
-            //        return $(".servicePersonalDiv", this.modal());
-            //    },
-            //    beauticianChartArea: function() {
-            //        return document.getElementById("beauticianChartArea").getContext("2d");
-            //    },
-            //    beautyConsultantChartArea: function() {
-            //        return document.getElementById("beautyConsultantChartArea").getContext("2d");
-            //    },
-            //    servicePersonalListQueryInput: function() {
-            //        return $("#servicePersonalListQueryInput")
-            //    },
-            //    getDefaultConfig: function() {
-            //        return {
-            //            type: 'pie',
-            //            data: {
-            //                datasets: [{
-            //                    data: [],
-            //                    backgroundColor: [],
-            //                    label: 'Dataset'
-            //                }],
-            //                labels: []
-            //            },
-            //            options: {
-            //                responsive: true
-            //            }
-            //        }
-            //    },
-            //    fillConfig: function(data) {
-
-            //        var $this = this;
-            //        var config = $this.getDefaultConfig();
-            //        var val = 100 / data.length;
-            //        var colors = [];
-            //        for (var i in chartColors) {
-            //            colors.push(chartColors[i]);
-            //        }
-            //        var index = 0;
-            //        $(data).each(function() {
-            //            config.data.datasets[0].data.push(val);
-            //            if (index > colors.length - 1) index = 0;
-            //            config.data.datasets[0].backgroundColor.push(colors[index]);
-            //            config.data.labels.push(this.name);
-            //            index++;
-            //        }); return config;
-            //    },
-            //    initChartArea: function(bdata, bcdata) {
-            //        bdata = bdata == null ? [{
-            //            name: "未分配"
-            //        }] : bdata;
-            //        bcdata = bcdata == null ? [{
-            //            name: "未分配"
-            //        }] : bcdata;
-            //        var $this = this;
-            //        if (IsNullOrWhiteSpace(window.beauticianChartConfig)) window.beauticianChartConfig = $this.fillConfig(bdata);
-            //        if (IsNullOrWhiteSpace(window.beautyConsultantChartConfig)) window.beautyConsultantChartConfig = $this.fillConfig(bcdata);
-            //        if (IsNullOrWhiteSpace(window.beauticianChart)) {
-            //            var area = $this.beauticianChartArea();
-            //            $(area).fillData(bdata);
-            //            window.beauticianChart = new Chart(area, window.beauticianChartConfig);
-            //        }
-
-            //        if (IsNullOrWhiteSpace(window.beautyConsultantChart)) {
-            //            var area = $this.beautyConsultantChartArea();
-            //            $(area).fillData(bcdata);
-            //            window.beautyConsultantChart = new Chart(area, window.beautyConsultantChartConfig);
-            //        }
-
-            //    },
-            //    updateChartArea: function(data, isall) {
-            //        var $this = this;
-            //        if (isall) {
-            //            data.beautician = data.beautician == null ? [{
-            //                name: "未分配"
-            //            }] : data.beautician;
-            //            $($this.beauticianChartArea()).fillData(data.beautician); window.beauticianChartConfig = $.extend(window.beauticianChartConfig, $this.fillConfig(data.beautician), true);
-            //            window.beauticianChart.update();
-            //            data.beautyConsultant = data.beautyConsultant == null ? [{
-            //                name: "未分配"
-            //            }] : data.beautyConsultant;
-            //            $($this.beautyConsultantChartArea()).fillData(data.beautyConsultant); window.beautyConsultantChartConfig = $.extend(window.beautyConsultantChartConfig, $this.fillConfig(data.beautyConsultant), true);
-            //            window.beautyConsultantChart.update();
-            //        } else {
-            //            if ($this.servicePersonaType == 0) {
-            //                $($this.beauticianChartArea()).fillData(data); window.beauticianChartConfig = $.extend(window.beauticianChartConfig, $this.fillConfig(data), true);
-            //                window.beauticianChart.update();
-            //            } else {
-            //                $($this.beautyConsultantChartArea()).fillData(data); window.beautyConsultantChartConfig = $.extend(window.beautyConsultantChartConfig, $this.fillConfig(data), true);
-            //                window.beautyConsultantChart.update();
-            //            }
-            //        }
-            //    },
-            //    getNewListItem: function() {
-            //        return $("tr", $this.listTemplate()).clone(true);
-
-            //    },
-            //    getListItem: function(data) {
-            //        $this = this;
-            //        if (IsNullOrWhiteSpace(data)) return $("tr", $this.list());
-            //        var item = $this.getNewListItem();
-            //        item.fillData(data);
-            //        return item
-            //    },
-            //    addListItem: function(data) {
-            //        $this = this;
-            //        $this.list().append($this.getListItem(data));
-            //    },
-            //    fillList: function(data) {
-            //        $this = this;
-            //        $(data).each(function() {
-            //            $this.addListItem(this);
-            //        });
-            //    },
-            //    emptyList: function() {
-            //        $this = this;
-            //        $this.list().empty();
-            //    },
-            //    listLoad: function(condition) {
-            //        $this = this;
-            //        condition = condition == null ? "": condition;
-            //        Send(PROCEDURE.GETYUANGONGXINXI, {
-            //            businessUnitId: User.info.BusinessUnitId,
-            //            condition: condition
-            //        },
-            //        function(rs) {
-            //            ServicePersonal.fillList(rs.data[0]);
-            //            ServicePersonal.listTableLayout();
-            //            var data;
-            //            switch (ServicePersonal.servicePersonaType) {
-            //                case 0:
-            //                    data = $(ServicePersonal.beauticianChartArea()).getData();
-            //                    break;
-            //                case 1:
-            //                    data = $(ServicePersonal.beautyConsultantChartArea()).getData();
-            //                    break;
-            //                case 2:
-            //                    ENTITY.getControl();
-            //                    break;
-            //            }
-            //              $(data).each(function() {
-            //                $(":checkbox", ServicePersonal.getListItem().filter("[data-id='" + this.id + "']")).prop('checked', true);
-            //            });
-
-            //        });
-
-            //    },
-            //    listQuery: function(e) {
-            //        $this = this;
-            //        var condition = $this.servicePersonalListQueryInput().val();
-            //        $this.listRefresh(condition);
-            //    },
-            //    listRefresh: function(condition, data) {
-            //        $this = this;
-            //        $this.emptyList();
-            //        $this.listLoad(condition, data);
-            //    },
-            //    click: function(e) {
-            //        $this = this;
-            //        $this.modal().fillData($(e).parents("tr:first").getData());
-            //    },
-            //    getData: function() {
-
-            //    },
-            //    save: function(e) {
-            //        var $this = this;
-            //        var bdata = $($this.beauticianChartArea()).getData();
-            //        var bcdata = $($this.beautyConsultantChartArea()).getData();
-            //        if (bdata.length == 1) {
-            //            if (IsNullOrWhiteSpace(bdata[0].id)) {
-            //                bdata = null;
-            //            }
-            //        }
-            //        if (bcdata.length == 1) {
-            //            if (IsNullOrWhiteSpace(bcdata[0].id)) {
-            //                bcdata = null;
-            //            }
-            //        }
-            //        var data = $.extend($this.modal().getData(), {
-            //            servicepersonal: {
-            //                beautician: bdata,
-            //                beautyConsultant: bcdata
-            //            }
-            //        },
-            //        true);
-            //        Settlement.getItem().filter("[data-id='" + data.id + "']").fillData(data);
-            //        Settlement.statistics();
-            //    },
-            //    servicePersonaType: null,
-            //    addServicePersonal: function(t, e) {
-            //        var $this = this;
-            //        $this.servicePersonaType = t;
-            //        var _data = ExistingProject.getData(e);
-            //        console.log(_data);
-            //    },
-            //    isNamedChange: function(e) {
-            //        var item = $(e).parents("tr:first");
-            //        var data = item.getData();
-            //        item.refreshData({
-            //            isNamed: parseInt(data.isNamed) == 0 ? 1 : 0
-            //        });
-            //    },
-            //    getSelectServicePersonalData: function() {
-            //        var $this = this;
-            //        var data = [];
-            //        $(":checked", $this.list()).each(function() {
-            //            data.push($(this).parents("tr:first").getData());
-            //        });
-            //        return data;
-            //    },
-            //    servicePersonalChange: function(e) {
-            //        var $this = this;
-            //        $this.updateChartArea($this.getSelectServicePersonalData())
-            //    },
-            //    servicePersonalIsLoad: false,
-            //    bindEvent: function() {
-
-            //        $this.modal().bindReplace('shown.bs.modal',
-            //        function(e) {
-            //            ServicePersonal.layout();
-            //            var smData = null
-            //            try {
-            //                smData = JSON.parse(ServicePersonal.modal().attr("data-servicepersonal"));
-            //            } catch(ex) {
-            //                smData = {
-            //                    beautician: null,
-            //                    beautyConsultant: null
-            //                };
-            //            }
-
-            //            if (!ServicePersonal.servicePersonalIsLoad) {
-            //                ServicePersonal.initChartArea(smData.beautician, smData.beautyConsultant);
-            //                ServicePersonal.servicePersonalIsLoad = true;
-            //            } else {
-            //                ServicePersonal.updateChartArea(smData, true);
-            //            }
-            //        });
-            //        $this.listModal().bindReplace('shown.bs.modal',
-            //        function(e) {
-
-            //            ServicePersonal.listRefresh();
-            //            ServicePersonal.listLayout();
-            //        });
-
-            //    },
-            //    layout: function() {
-            //        $this = this;
-            //        $this.div().setToModalContentMaxHeight();
-            //        var height = $this.div().getModalContentMaxHeight() - 40;
-
-            //        $(".panel-body", $this.div()).outerHeight(height);
-            //    },
-            //    listTableLayout: function() {
-            //        $this = this;
-            //        layout_table($this.listThead(), $this.listTbody());
-            //    },
-            //    listLayout: function() {
-            //        $this = this;
-            //        $this.listDiv().setToModalContentMaxHeight();
-            //    },
-            //    init: function() {
-            //        $this = this;
-            //        $this.bindEvent();
-            //    }
-            //}
 
             //项目产品疗程促销
             var ItemProductCoursePromotion = {
@@ -2360,7 +2220,7 @@
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                                             <li>
-                                                <a href="#">
+                                                <a href="#" data-toggle="modal" data-target="#vipchargeModal" >
                                                     <span class="glyphicon glyphicon-piggy-bank">
                                                     </span>
                                                     <span>
@@ -2369,7 +2229,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#">
+                                                <a href="#" data-toggle="modal" data-target="#birthVipModal">
                                                     <span class="glyphicon glyphicon-gift">
                                                     </span>
                                                     <span>
@@ -2378,7 +2238,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#" data-toggle="modal" data-target="#reserveModal" onclick="Reservation.openWin(this)">
+                                               <a href="#" data-toggle="modal" data-target="#reserveModal" onclick="Reservation.openWin(this)">
                                                     <span class="glyphicon glyphicon-calendar">
                                                     </span>
                                                     <span>
@@ -2412,20 +2272,29 @@
                                 <div class="row">
                                     <div class="col-xs-5">
                                         <div class="form-group">
-                                            <label for="no">
+                                            <label for="id">
                                                 卡号
                                             </label>
-                                            <input type="text" class="form-control" id="no" placeholder="卡号" data-name="no"
+                                            <input type="text" class="form-control" id="id" placeholder="卡号" data-name="no"
                                                    disabled="disabled">
                                         </div>
                                     </div>
-                                    <div class="col-xs-5">
+                                    <div class="col-xs-3">
                                         <div class="form-group">
                                             <label for="name">
                                                 姓名
                                             </label>
                                             <input type="text" class="form-control" id="name" placeholder="姓名" data-name="name"
                                                    disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="form-group">
+                                            <label for="sex">
+                                                性别
+                                            </label>
+                                            <input type="text" class="form-control" id="sex" placeholder="性别" data-name="sex"
+                                                   disabled="disabled" data-format="formatsex">
                                         </div>
                                     </div>
                                     <div class="col-xs-2" style="line-height:80px;">
@@ -2502,10 +2371,10 @@
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="name">
+                                                                <label for="leixing">
                                                                     客户类型
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="客户类型" data-name="name"
+                                                                <input type="text" class="form-control" id="leixing" placeholder="客户类型" data-name="leixing"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2513,39 +2382,19 @@
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
-                                                                    手机号码
-                                                                </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="手机号码" data-name="no"
-                                                                       disabled="disabled">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-6">
-                                                            <div class="form-group">
-                                                                <label for="name">
+                                                                <label for="tel">
                                                                     电话号码
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="电话号码" data-name="name"
+                                                                <input type="text" class="form-control" id="tel" placeholder="电话号码" data-name="tel"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="lianxidizhi">
                                                                     联系地址
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="联系地址" data-name="no"
-                                                                       disabled="disabled">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-6">
-                                                            <div class="form-group">
-                                                                <label for="name">
-                                                                    从事职业
-                                                                </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="从事职业" data-name="name"
+                                                                <input type="text" class="form-control" id="lianxidizhi" placeholder="联系地址" data-name="lianxidizhi"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2553,39 +2402,19 @@
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
-                                                                    专属顾问
-                                                                </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="专属顾问" data-name="no"
-                                                                       disabled="disabled">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-6">
-                                                            <div class="form-group">
-                                                                <label for="name">
-                                                                    专属美疗师
-                                                                </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="专属美疗师"
-                                                                       data-name="name" disabled="disabled">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-xs-6">
-                                                            <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="rihuiriqi">
                                                                     入会日期
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="入会日期" data-name="no"
+                                                                <input type="text" class="form-control" id="rihuiriqi" placeholder="入会日期" data-name="rihuiriqi"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="name">
-                                                                    所属月份
+                                                                <label for="congshizhiye">
+                                                                    从事职业
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="所属月份" data-name="name"
+                                                                <input type="text" class="form-control" id="congshizhiye" placeholder="从事职业" data-name="congshizhiye"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2593,19 +2422,39 @@
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
-                                                                    生日
+                                                                <label for="zhuanshugw">
+                                                                    专属顾问
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="生日" data-name="no"
+                                                                <input type="text" class="form-control" id="zhuanshugw" placeholder="专属顾问" data-name="zhuanshugw"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="name">
+                                                                <label for="zhuanshumls">
+                                                                    专属美疗师
+                                                                </label>
+                                                                <input type="text" class="form-control" id="zhuanshumls" placeholder="专属美疗师"
+                                                                       data-name="zhuanshumls" disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="shengri">
+                                                                    生日
+                                                                </label>
+                                                                <input type="text" class="form-control" id="shengri" placeholder="生日" data-name="shengri"
+                                                                       disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label for="jieshaoren">
                                                                     介绍人
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="介绍人" data-name="name"
+                                                                <input type="text" class="form-control" id="jieshaoren" placeholder="介绍人" data-name="jieshaoren"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2622,19 +2471,19 @@
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="zuihouxf">
                                                                     最后消费时间
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="最后消费时间" data-name="no"
+                                                                <input type="text" class="form-control" id="zuihouxf" placeholder="最后消费时间" data-name="zuihouxf"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="name">
+                                                                <label for="chuzhiyue">
                                                                     储值余额
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="储值余额" data-name="name"
+                                                                <input type="text" class="form-control" id="chuzhiyue" placeholder="储值余额" data-name="chuzhiyue"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2642,19 +2491,19 @@
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="zengjinyue">
                                                                     赠金余额
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="赠金余额" data-name="no"
+                                                                <input type="text" class="form-control" id="zengjinyue" placeholder="赠金余额" data-name="zengjinyue"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="name">
+                                                                <label for="shengyujifen">
                                                                     剩余积分
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="剩余积分" data-name="name"
+                                                                <input type="text" class="form-control" id="shengyujifen" placeholder="剩余积分" data-name="shengyujifen"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2662,10 +2511,10 @@
                                                     <div class="row">
                                                         <div class="col-xs-12">
                                                             <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="qiankuan">
                                                                     欠款
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="欠款" data-name="no"
+                                                                <input type="text" class="form-control" id="qiankuan" placeholder="欠款" data-name="qiankuan"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2682,19 +2531,19 @@
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="hunfou">
                                                                     婚否
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="婚否" data-name="no"
+                                                                <input type="text" class="form-control" id="hunfou" placeholder="婚否" data-name="hunfou"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="name">
+                                                                <label for="xuexing">
                                                                     血型
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="血型" data-name="name"
+                                                                <input type="text" class="form-control" id="xuexing" placeholder="血型" data-name="xuexing"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2702,19 +2551,19 @@
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="shengxiao">
                                                                     生肖
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="生肖" data-name="no"
+                                                                <input type="text" class="form-control" id="shengxiao" placeholder="生肖" data-name="shengxiao"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="name">
+                                                                <label for="xingzuo">
                                                                     星座
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="星座" data-name="name"
+                                                                <input type="text" class="form-control" id="xingzuo" placeholder="星座" data-name="xingzuo"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2722,19 +2571,19 @@
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="shengao">
                                                                     身高
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="身高" data-name="no"
+                                                                <input type="text" class="form-control" id="shengao" placeholder="身高" data-name="shengao"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="name">
+                                                                <label for="tizhong">
                                                                     体重
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="体重" data-name="name"
+                                                                <input type="text" class="form-control" id="tizhong" placeholder="体重" data-name="tizhong"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2742,19 +2591,19 @@
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="xiongwei">
                                                                     胸围
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="胸围" data-name="no"
+                                                                <input type="text" class="form-control" id="xiongwei" placeholder="胸围" data-name="xiongwei"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                <label for="name">
+                                                                <label for="yaowei">
                                                                     腰围
                                                                 </label>
-                                                                <input type="text" class="form-control" id="name" placeholder="腰围" data-name="name"
+                                                                <input type="text" class="form-control" id="yaowei" placeholder="腰围" data-name="yaowei"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2762,10 +2611,10 @@
                                                     <div class="row">
                                                         <div class="col-xs-12">
                                                             <div class="form-group">
-                                                                <label for="no">
+                                                                <label for="tunwei">
                                                                     臀围
                                                                 </label>
-                                                                <input type="text" class="form-control" id="no" placeholder="臀围" data-name="no"
+                                                                <input type="text" class="form-control" id="tunwei" placeholder="臀围" data-name="tunwei"
                                                                        disabled="disabled">
                                                             </div>
                                                         </div>
@@ -2797,7 +2646,7 @@
                                 </tr>
                             </thead>
                         </table>
-                        <div id="left-table-div">
+                        <div class="the-bottom" id="left-table-div" data-entity="cart" data-entity-control="list">
                         </div>
                     </div>
                     <div class="panel-footer">
@@ -2870,8 +2719,8 @@
                                     按摩
                                 </span>
                             </div>
-                            <div class="form-group" id="pp_item_main">
-                                <div class="row pp_item_container">
+                            <div class="form-group the-bottom" id="pp_item_main" data-entity="projectProducts" data-entity-control="dropload">
+                                <div class="row pp_item_container" data-entity="projectProducts" data-entity-control="list">
                                 </div>
                             </div>
                         </form>
@@ -2930,6 +2779,9 @@
                 </h3>
             </div>
             <table class="table fixed">
+                <span class="type_sign" data-name="basicsType" data-format="formatbasics">
+                    项目
+                </span>
                 <tr>
                     <td rowspan="2" colspan="2">
                         <img src="images/default_goods.png" />
@@ -3004,6 +2856,9 @@
                 </h3>
             </div>
             <table class="table fixed">
+                <span class="type_sign" data-name="basicsType" data-format="formatbasics">
+                    项目
+                </span>
                 <tr>
                     <td rowspan="2" colspan="4">
                         <img src="images/default_goods.png" />
@@ -3163,37 +3018,36 @@
         <li role="separator" class="divider">
         </li>
     </ul>
-    <!--预约Modal-->
+    <!--预约查询Modal-->
     <div class="modal fade  bs-example-modal-lg" id="reserveModal" tabindex="-1"
          role="dialog" aria-labelledby="reserveModalLabel" data-entity="reservation" data-entity-control="modal">
         <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">
-                            &times;
-                        </span>
+                            <span aria-hidden="true">
+                                &times;
+                            </span>
                     </button>
                     <div class="modal-title" id="reserveModalLabel" style="text-align:center;">
                         <div style="float:left;">
                             <button class="btn btn-link" style="color: #337ab7;padding:0;margin:0;font-size:16px;"
                                     onclick="Reservation.dateChange(this)">
-                                <span class="glyphicon glyphicon-calendar">
-                                </span>
+                                <span class="glyphicon glyphicon-calendar"></span>
                             </button>
                             <input readonly="readonly" style="border:none;background:none;border-radius:0;box-shadow:none;font-size:14px;width:90px;cursor:pointer;"
-                                   id="datetimepicker" data-date-format="yyyy-mm-dd" type="text" data-entity="reservation" data-entity-control-name="datetimepicker">
+                                   id="datetimepicker" data-date-format="yyyy-mm-dd" type="text" data-entity="reservation" data-entity-control="datetimepicker">
                         </div>
                         <span style="font-size:16px;font-weight:700; margin-left:-100px;">
-                            预约
-                        </span>
+                                预约
+                            </span>
                     </div>
                 </div>
-                <div class="modal-body" id="reserve-modal-body" data-entity="reservation" data-entity-control="content">
+                <div class="modal-body" id="reserve-modal-body" data-entity="reservation" data-entity-control="content" style="height: 450px;">
                     <!--预约按钮-->
-                    <div class="reserve_btn_div" data-entity="reservationdate" data-entity-control-name="modalButton">
-                        <button class="btn btn-default"
-                                onclick="Room.openWin(this)">
+                    <div class="reserve_btn_div" data-entity="reservationdate" data-entity-control="modalButton">
+                        <button id="reserve-status" class="btn btn-success"
+                                onclick="ReservationForm.openWin(this)" style="letter-spacing: .2em; font-size: 1.1em;">
                             预约
                         </button>
                     </div>
@@ -3212,55 +3066,237 @@
                                 </td>
                             </tr>
                         </thead>
+                        <tbody class="reserve-tb">
+                            <tr data-entity="reservationdate" data-entity-control="list" data-index="1">
+                                <td data-name="张三"><span class="reserved_employee" style="color: rgba(0,0,0,1);">张三</span></td>
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="09:30" data-time="09:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="10:00" data-time="10:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="10:30" data-time="10:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="11:00" data-time="11:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="11:30" data-time="11:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="12:00" data-time="12:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="12:30" data-time="12:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="13:00" data-time="13:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="13:30" data-time="13:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="14:00" data-time="14:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="14:30" data-time="14:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="15:00" data-time="15:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="15:30" data-time="15:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="16:00" data-time="16:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="16:30" data-time="16:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="17:00" data-time="17:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="17:30" data-time="17:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="18:00" data-time="18:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="18:30" data-time="18:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="19:00" data-time="19:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="19:30" data-time="19:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="20:00" data-time="20:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="20:30" data-time="20:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="21:00" data-time="21:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="21:30" data-time="21:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="22:00" data-time="22:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="22:30" data-time="22:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="23:00" data-time="23:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="23:30" data-time="23:30"></span></td>-->
+                            </tr>
+                            <tr id="_1" data-entity="reservationdate" data-entity-control="list" data-index="2">
+                                <td data-name="李四"><span class="reserved_employee" style="color: rgba(0,0,0,1);">李四</span></td>
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="09:30" data-time="09:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="10:00" data-time="10:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="10:30" data-time="10:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="11:00" data-time="11:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="11:30" data-time="11:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="12:00" data-time="12:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="12:30" data-time="12:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="13:00" data-time="13:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="13:30" data-time="13:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="14:00" data-time="14:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="14:30" data-time="14:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="15:00" data-time="15:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="15:30" data-time="15:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="16:00" data-time="16:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="16:30" data-time="16:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="17:00" data-time="17:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="17:30" data-time="17:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="18:00" data-time="18:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="18:30" data-time="18:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="19:00" data-time="19:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="19:30" data-time="19:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="20:00" data-time="20:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="20:30" data-time="20:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="21:00" data-time="21:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="21:30" data-time="21:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="22:00" data-time="22:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="22:30" data-time="22:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="23:00" data-time="23:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="23:30" data-time="23:30"></span></td>-->
+                            </tr>
+                            <tr id="_2" data-entity="reservationdate" data-entity-control="list" data-index="3">
+                                <td data-name="王五"><span class="reserved_employee" style="color: rgba(0,0,0,1);">王五</span></td>
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="09:30" data-time="09:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="10:00" data-time="10:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="10:30" data-time="10:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="11:00" data-time="11:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="11:30" data-time="11:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="12:00" data-time="12:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="12:30" data-time="12:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="13:00" data-time="13:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="13:30" data-time="13:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="14:00" data-time="14:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="14:30" data-time="14:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="15:00" data-time="15:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="15:30" data-time="15:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="16:00" data-time="16:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="16:30" data-time="16:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="17:00" data-time="17:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="17:30" data-time="17:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="18:00" data-time="18:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="18:30" data-time="18:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="19:00" data-time="19:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="19:30" data-time="19:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="20:00" data-time="20:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="20:30" data-time="20:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="21:00" data-time="21:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="21:30" data-time="21:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="22:00" data-time="22:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="22:30" data-time="22:30"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="23:00" data-time="23:00"></span></td>-->
+                                <!--<td onclick="ReservationDate.select(this)"><span data-toggle="tooltip" data-placement="top" title="23:30" data-time="23:30"></span></td>-->
+                            </tr>
+                        </tbody>
                     </table>
-                    <div class="panel-group" id="reserve_accordion" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="reserve_headingOne">
-                                <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#reserve_accordion"
-                                       href="#reserve_collapseOne" aria-expanded="true" aria-controls="reserve_collapseOne">
-                                        工作人员
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="reserve_collapseOne" class="panel-collapse collapse in" role="tabpanel"
-                                 aria-labelledby="reserve_headingOne">
-                                <div class="panel-body">
-                                    <table class="table table-bordered" id="reserve_one_table">
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="reserve_headingTwo">
-                                <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#reserve_accordion"
-                                       href="#reserve_collapseTwo" aria-expanded="false" aria-controls="reserve_collapseTwo">
-                                        已预约（未指定人）
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="reserve_collapseTwo" class="panel-collapse collapse" role="tabpanel"
-                                 aria-labelledby="reserve_headingTwo">
-                                <div class="panel-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                    richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard
-                                    dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf
-                                    moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
-                                    assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
-                                    wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-                                    vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
-                                    synth nesciunt you probably haven't heard of them accusamus labore sustainable
-                                    VHS.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="ReservationSelect.save(this)">
+                        确定
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!--签到modal-->
+    <div class="modal fade  bs-example-modal-lg" id="checkinModal" tabindex="-1"
+         role="dialog" aria-labelledby="checkinModalLabel" data-entity="checkin" data-entity-control="modal">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom: 2px solid #FFC107">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <div class="modal-title" id="checkinModalLabel" style="text-align:center;">
+                        <span style="font-size:16px;font-weight:700;">
+                            签到表
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body" id="checkin-modal-body" data-entity="checkin" data-entity-control="content" style="height: 450px;">
+                    <div class="checkin-customer checkin-item">
+                        <label class="checkin-item-label">预约客户:</label>
+                        <div class="checkin-item-content">
+                            <input class="checkin-name form-control" type="text" readonly value="客户1">
+                            <input class="checkin-number form-control" type="text"readonly value="123456">
+                        </div>
+                    </div>
+                    <div class="checkin-customer checkin-item">
+                        <label class="checkin-item-label">服务项目:</label>
+                        <div class="checkin-item-content" style="height: 35px;">
+                            <button class="btn btn-default">重新选择</button>
+                            <input class="checkin-item form-control" type="text" readonly value="身体按摩">
+                        </div>
+                    </div>
+                    <div class="checkin-customer checkin-item">
+                        <label class="checkin-item-label">房间:</label>
+                        <div class="checkin-item-content">
+                            <button class="btn btn-default" onclick="">重新选择</button>
+                            <input class="checkin-room form-control" type="text" readonly value="房间1">
+                        </div>
+                    </div>
+                    <div class="checkin-customer checkin-item">
+                        <label class="checkin-item-label">服务人员:</label>
+                        <div class="checkin-item-content">
+                            <button class="btn btn-default">重新选择</button>
+                            <input class="checkin-employee form-control" type="text" readonly value="A3">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="CheckIn.selectSave(this);">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--预约modal-->
+    <div class="modal fade  bs-example-modal-lg" id="reservationformModal" tabindex="-1"
+         role="dialog" aria-labelledby="reservationformModalLabel" data-entity="reservationform" data-entity-control="modal">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom: 2px solid #FFC107">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <div class="modal-title" id="reserveformModalLabel" style="text-align:center;">
+                        <span style="font-size:16px;font-weight:700;">
+                            预约表
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body" id="reservationform-modal-body" data-entity="reservation" data-entity-control="content" style="height: 450px;">
+                    <div class="startEndChoose reserve_item">
+                        <label for="start-end">预约时间</label>
+                        <div class="reserve_item_content">
+                            <input readonly="readonly" id="start" class="form-control" style="width: 40%;display: inline-block;max-height: 150px;">
+                            <span class="glyphicon glyphicon-arrow-right" style="padding: 0 15px;"></span>
+                            <input readonly="readonly" id="end" class="form-control" style="width: 40%;display: inline-block;max-height: 150px;">
+                        </div>
+                    </div>
+                    <div class="roomNumber reserve_item">
+                        <label for="roomNumber">房间</label>
+                        <div class="reserve_item_content" id="chooseRoom">
+                            <button class="btn btn-default" onclick="Room.openWin(this)">选择房间</button>
+                            <input class="form-control data-room reserve-item" type="text" readonly>
+                        </div>
+                    </div>
+                    <div class="roomNumber reserve_item">
+                        <label for="chooseItem">项目</label>
+                        <div class="reserve_item_content" id="chooseItem">
+                            <button class="btn btn-default" onclick="ReservationSelect.openWin(this)">选择项目</button>
+                            <input class="form-control data-item reserve-item" type="text"  readonly>
+                        </div>
+                    </div>
+                    <div class="technicianReserve reserve_item">
+                        <label for="technicianReserve">服务人员</label>
+                        <div class="reserve_item_content" id="technicianReserve">
+                            <button class="btn btn-default" onclick="ServicePersonal.openWin(this)">选择人员</button>
+                            <input class="form-control data-employee reserve-item" type="text"  readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="ReservationForm.selectSave(this)">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--预约表单-->
     <div class="modal fade bs-example-modal-lg" id="reservetbModal" tabindex="-1"
          role="dialog" aria-labelledby="reservetbModalLabel" data-entity="reservationSelect" data-entity-control="modal">
@@ -3306,9 +3342,11 @@
                                 </thead>
                             </table>
                             <div class="reservetb_list_div" data-entity="reservationSelect" data-entity-control="content">
-                                <table class="table table-bordered fixed reservetb_list_tbody" data-entity="reservationItem" data-entity-control="tbody">
-                                    <tbody data-entity="reservationItem" data-entity-control="list"></tbody>
-                                </table>
+                                <div class="fill-size" data-entity="reservationItem" data-entity-control="dropload">
+                                    <table class="table table-bordered fixed reservetb_list_tbody" data-entity="reservationItem" data-entity-control="tbody">
+                                        <tbody data-entity="reservationItem" data-entity-control="list"></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="col-xs-4">
@@ -3388,9 +3426,6 @@
                     <span data-entity="speplg" data-name="name"></span>
                 </div>
             </div>
-
-
-
         </li>
     </ul>
     <!--预约项目集合Item-->
@@ -3864,11 +3899,22 @@
     <!-- 预约时间Item -->
     <table>
         <tr>
-            <td data-entity="reservationdate" data-entity-control="template" class="reserve_td" style="border-bottom-width:0" onclick="ReservationDate.select(this)">
+            <td data-entity="reservationdate" data-entity-control="template" class="reserve_td" style="border-bottom-width: 1px" onclick="ReservationDate.select(this)">
                 <span data-name="timeInterval" data-format="formatdate" data-date-format="hh:mm"></span>
             </td>
         </tr>
     </table>
+    <!--预约人员Item-->
+    <tr>
+        <td data-entity="reservationdate" data-entity-control="template" class="reserve_td" style="border-bottom-width:0" onclick="ReservationDate.select(this)">
+            <span data-name="timeInterval" data-format="formatdate" data-date-format="hh:mm"></span>
+        </td>
+    </tr>
+
+    <!--<option data-entity="reservationdate" data-entity-control="template" class="reserve_td" style="border-bottom-width:0">-->
+        <!--<span data-name="timeInterval" data-format="formatdate" data-date-format="hh:mm"></span>-->
+    <!--</option>-->
+
     <!--开单Modal-->
     <div class="modal fade" id="billingModal" tabindex="-1" role="dialog"
          aria-labelledby="billingModalLabel" data-entity="billing" data-entity-control="modal">
@@ -4028,6 +4074,108 @@
 
         </tr>
     </table>
-    
+    <!--会员充值Modal-->
+    <div class="modal fade" id="vipchargeModal" tabindex="-1" role="dialog"
+         aria-labelledby="vipchargeModalLabel" data-entity="vipcharge" data-entity-control="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="vipchargeModalLabel">
+                        <span class="glyphicon glyphicon-home" style="color: #337ab7;">
+                            &nbsp;会员充值
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body" data-entity="vipcharge" data-entity-control="content">
+                    <div class="row" data-entity="vipcharge" data-entity-control="list">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="charge" class="col-sm-2 control-label">
+                                    充值金额
+                                </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="charge" data-name="charge" type="number" placeholder="00.00" style="width: 50%;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">
+                        结算
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--生日会员Modal-->
+    <div class="modal fade bs-example-modal-lg" id="birthVipModal" tabindex="-1" role="dialog" aria-labelledby="birthVipModalLabel" data-entity="birthVip" data-entity-control="modal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="birthVipModalLabel">
+                        <span class="glyphicon glyphicon-home" style="color: #337ab7;">
+                            &nbsp;生日会员
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body" data-entity="birthVip" data-entity-control="content">
+                    <table class="table table-bordered fixed birthVip_list_thead" data-entity="birthVip" data-entity-control="thead">
+                        <thead>
+                        <tr>
+                            <th data-column="index">
+                                序号
+                            </th>
+                            <th data-column="member-number">
+                                卡号
+                            </th>
+                            <th data-column="name">
+                                姓名
+                            </th>
+                            <th data-column="customer-type">
+                                客户类型
+                            </th>
+                            <th data-column="tel">
+                                电话
+                            </th>
+                            <th data-column="join-time">
+                                入会时间
+                            </th>
+                            <th data-column="birthday">
+                                生日
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="birthVip_list_div" style="overflow-x:hidden;overflow-y:auto;" data-entity="birthVip" data-entity-control="content">
+                        <table class="table table-bordered fixed birthVip_list_tbody" data-entity="birthVip" data-entity-control="tbody">
+                            <tbody class="settlement_list" data-entity="birthVip" data-entity-control="list"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -167,7 +167,7 @@ jQuery.fn.extend({
             for (var i in e) {
                 this.off(e, e[i]).on(e, e[i])
             }
-        } else this.off(e, fn).on(e, fn)
+        } else this.off(e, fn).on(e, fn);
         return this;
     },
     serializeJson: function () {
@@ -213,7 +213,7 @@ var chartColors = {
 };
 var randomScalingFactor = function () {
     return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
-}
+};
 var remind = {
     init: function () {
         var remindModal = $("#remindModal");
@@ -250,10 +250,10 @@ var remind = {
         $('#remindModal').bindReplace('hidden.bs.modal',
 		function (e) {
 		    if (hf) hf();
-		})
+		});
         $("#remindModal").modal('show');
     }
-}
+};
 
 function GetResult(json, sign) {
     var result = {
@@ -409,7 +409,6 @@ function RelationData(parents, childs, key, setKey) {
         });
     });
     return parents;
-
 }
 //发送请求
 function Send(procedure, data, fn, sign) {
@@ -419,7 +418,7 @@ function Send(procedure, data, fn, sign) {
             procedureName = "usp_Login";
             parameter = "'" + data.username + "','" + data.password + "'";
             ExecDefault(procedureName, parameter, fn, sign);
-
+            break;
         case "getTheme":
             data = data == null ? {} : data;
             data["method"] = procedure;
@@ -556,6 +555,7 @@ function Exec(procedureName, parameter, fn, type, isLoader, sign) {
         case ExecType.zip:
             $.post(url, data,
             function (json) {
+                console.log(json);
                 if (isLoader) loader.hide();
                 json = "" + json;
                 if (fn) fn(eval(json));
@@ -565,6 +565,7 @@ function Exec(procedureName, parameter, fn, type, isLoader, sign) {
             $.ajaxSetup({ sign: sign });
             $.getJSON(url, data,
              function (json) {
+                 console.log(json);
                  if (isLoader) loader.hide();
                  if (fn) fn(eval(json), this.sign);
              });
@@ -607,11 +608,15 @@ function FormatData(k, e, v, a,t) {
         case "formatprice":
             if ($(e).is("input"))
                 $(e).val(TryParseFloat(v).toFixed(2));
-             else
+            else
                 $(e).text(TryParseFloat(v).toFixed(2));
             break;
         case "formatsex":
-            $(e).text(parseInt(v) == 2 ? "♀" : "♂");
+            if ($(e).get(0).tagName == 'input') {
+                alert("123");
+            } else {
+                $(e).text(parseInt(v) == 2 ? "♀" : "♂");
+            }
             break;
         case "formatif":
 
@@ -648,6 +653,26 @@ function FormatData(k, e, v, a,t) {
             break;
         case "formatclass":
             $(e).text(CLASS[v]);
+            break;
+        case "formatbasics":
+            $(e).text( GetBasicsTypeByKey(v).TEXT);
+            if (parseInt(v) === 1) {
+                $(e).css({
+                    "background-color": "#F44336"
+                });
+            } else if (parseInt(v) === 2) {
+                $(e).css({
+                    "background-color": "#FFC107"
+                });
+            } else if (parseInt(v) === 3) {
+                $(e).css({
+                    "background-color": "#2196F3"
+                });
+            } else if (parseInt(v) === 4) {
+                $(e).css({
+                    "background-color": "#8BC34A"
+                });
+            }
             break;
         case "formatshortdate":
             $(e).text(new Date(v).Format("yyyy-MM-dd"));
@@ -738,7 +763,7 @@ function FormatData(k, e, v, a,t) {
                     options: {
                         responsive: true
                     }
-                }
+                };
                 var val = 100 / v.length;
                 var colors = [];
                 for (var i in chartColors) {
@@ -796,7 +821,6 @@ var $entity = {
             window[_entity.name] = $.extend(true, {}, this.entity, _entity);
             return window[_entity.name];
         }
-
     },
     OPERATION: {
         SUM:"sum"
@@ -816,6 +840,19 @@ var $entity = {
         }
         return _val;
         
+    },
+    fillSize: function () {
+        $(".fill-size").each(function () {
+            $(this).height($(this).parent().height());
+
+        });
+
+    },
+    theSize:function(){
+        $(".the-bottom").each(function () {
+            var _height = document.documentElement.clientHeight - this.offsetTop;
+            $(this).outerHeight(_height);
+        });
     },
     getTheEntity: function (_e) {
         return this.getEntity($(_e).parents("[data-entity]").first().attr("data-entity"));
@@ -843,7 +880,7 @@ var $entity = {
                 return $("[data-controlid='" + _condition + "']");
             else if (typeof (_condition) == "object") {
                 return this.find("[data-CONTROLID='" + _condition.CONTROLID + "']");
-            } else return this.find("[data-entity-control-name='" + _condition + "']");
+            } else return this.find("[data-entity-control='" + _condition + "']");
         },
         getTheControl: function (_e) {
 
@@ -852,7 +889,7 @@ var $entity = {
         getFromControl: function (_e) {
             return this.getControl($(_e).getData().FROMCONTROLID, true);
         },
-       
+
         getData: function (_e) {
 
             if (typeof (_e) == "string") {
@@ -875,7 +912,7 @@ var $entity = {
             var _bool = false;
             if (this.setDataBeginCallback) {
                 _data = this.setDataBeginCallback(_data) || this.response.data;
-            };
+            }
             if (this.getType() == $entity.TYPE.LIST) {
                 $(this.response.data).each(function (i, e) {
                     if (e.CONTROLID == _data.CONTROLID) {
@@ -911,7 +948,7 @@ var $entity = {
             if (this.response.data == null) {
                 this.response = {
                     result: true,
-                    data: [],
+                    data: []
                 };
             }
             var _is = true;
@@ -1066,7 +1103,7 @@ var $entity = {
             this.getForm().fillData(_data);
             if (this.fillFormCallback) this.fillFormCallback(this.getForm(), _data);
         },
-   
+
         refreshList: function (_data) {
             for (var i = 0; i < _data.length; i++) {
                 if (!this.setItem(_data[i])) this.addItem(_data[i]);
@@ -1078,7 +1115,7 @@ var $entity = {
             this.response = {
                 result: null,
                 data: null
-            }
+            };
             if (this.emptyCallback) this.emptyCallback(this.getList());
         },
         //移除
@@ -1102,16 +1139,16 @@ var $entity = {
             if (!IsNullOrWhiteSpace(_data))
                 this.setResponseData(_data);
             this.load();
-            
+
             if (this.attribute) {
                 for (var i = 0; i < this.attribute.length; i++) {
                     var _entity = $entity.getEntity(this.attribute[i].entity);
                     if (_entity) _entity.init();
-
                 }
             }
             if (_afn) this.initCallback = _afn;
             if (this.initCallback) this.initCallback(this);
+            // this.layout();
         },
         setTemplate: null,
         setDataBeginCallback:null,
@@ -1126,6 +1163,7 @@ var $entity = {
         fillFormCallback:null,
         emptyCallback: null,
         modalShownHandle: null,
+        openWinCallback: null,
         bindEvent: function () {
             if (!IsNullOrWhiteSpace(this.getModal())) {
                 var _this = this;
@@ -1154,7 +1192,7 @@ var $entity = {
         setResponseData: function (_data) {
             this.setResponse({
                 result: true,
-                data: _data,
+                data: _data
             });
         },
         setResponse: function (_response) {
@@ -1205,19 +1243,24 @@ var $entity = {
             this.loadConfigure.data[this.queryConfigure.procedureName] = $(_e).val();
             this.query(this.loadConfigure.data);
         },
-        openWin: null,
+        openWin: function (){
+            this.getModal().modal("show");
+            if(this.openWinCallback) this.openWinCallback();
+        },
         layout: function () {
             if (!IsNullOrWhiteSpace(this.getModal()) && !IsNullOrWhiteSpace(this.getContent())) {
                 this.getContent().setToModalContentMaxHeight();
+                $entity.fillSize();
             }
             if (!IsNullOrWhiteSpace(this.getThead()) && !IsNullOrWhiteSpace(this.getTbody())) {
                 layoutTable(this.getThead(), this.getTbody());
             }
+            $entity.theSize();
         },
         //实体属性
         attribute: null
     }
-}
+};
 
 
 function importData() {
